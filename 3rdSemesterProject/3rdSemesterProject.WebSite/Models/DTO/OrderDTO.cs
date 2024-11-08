@@ -4,8 +4,8 @@ namespace _3rdSemesterProject.WebSite.Models.DTO;
 
 public class OrderDTO
 {
-    public CustomerDTO Customer { get; set; }
-    public DepartureDTO Departure { get; set; }
+    public int CustomerID { get; set; }
+    public int DepartureID { get; set; }
     [Display(Name = "Amount of seats")]
     public int SeatsReserved { get; set; }
     public decimal TotalPrice { get; set; }

@@ -2,6 +2,7 @@
 using _3rdSemesterProject.WebSite.Models.DTO.CombinedDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RestSharp;
 
 namespace _3rdSemesterProject.WebSite.Controllers;
@@ -32,30 +33,57 @@ public class OrdersController : Controller
 
         var model = new OrderDepartureDTOCombined();
         model.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
-        return View();
+        return View(model);
+    }
+
+    // GET: OrdersController/Create/Id
+    public ActionResult Create(int id)
+    {
+        var model = new OrderDepartureDTOCombined();
+        model.AvailableSeats = _restClient.GetDepartureById(id).AvailableSeats;
+        return View(model);
     }
 
     // POST: OrdersController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(OrderDTO newOrder)
+    public ActionResult Create(OrderDepartureDTOCombined newCombinedOrder)
     {
         try
         {
-            if (!ModelState.IsValid)
+            newCombinedOrder.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
+            if (newCombinedOrder.AvailableSeats < newCombinedOrder.SeatsReserved)
             {
-                //TempData["Message"] = $"Error creating your order. Try again later...";
-                return View();
+                ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure");
+            }
+            else
+            {
+                int newOrderID = _restClient.CreateOrder(ConvertToOrderDTO(newCombinedOrder));
+                return Redirect("/home/index");
             }
 
-            int newOrderID = _restClient.CreateOrder(newOrder);
-            //TempData["Message"] = $"Your order for the blog {author.BlogTitle} was created - welcome!";
-            return Redirect("/home/index");
+            if (!ModelState.IsValid)
+            {
+                newCombinedOrder.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
+                return View(newCombinedOrder);
+            }
+            return View(newCombinedOrder);
         }
         catch
         {
             return View();
         }
+    }
+
+    private OrderDTO ConvertToOrderDTO(OrderDepartureDTOCombined newCombinedOrder)
+    {
+        OrderDTO newOrder = new OrderDTO();
+        newOrder.OrderID = newCombinedOrder.OrderID;
+        newOrder.CustomerID = newCombinedOrder.CustomerID;
+        newOrder.DepartureID = newCombinedOrder.DepartureID;
+        newOrder.SeatsReserved = newCombinedOrder.SeatsReserved;
+        newOrder.TotalPrice = newCombinedOrder.TotalPrice;
+        return newOrder;
     }
 
     // GET: OrdersController/Edit/5

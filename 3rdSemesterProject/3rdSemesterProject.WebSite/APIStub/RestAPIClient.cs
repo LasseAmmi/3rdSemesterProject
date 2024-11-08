@@ -18,6 +18,11 @@ public class RestAPIClient : IRestClient
         throw new NotImplementedException();
     }
 
+    public DepartureDTO GetDepartureById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public DepartureDTO getFirstDeparture()
     {
         throw new NotImplementedException();

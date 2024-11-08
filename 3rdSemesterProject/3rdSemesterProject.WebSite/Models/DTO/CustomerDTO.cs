@@ -2,5 +2,5 @@
 
 public class CustomerDTO
 {
-
+    public int CustomerID { get; set; }
 }
