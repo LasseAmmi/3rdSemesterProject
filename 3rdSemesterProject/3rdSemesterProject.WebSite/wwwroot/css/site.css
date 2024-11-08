@@ -28,6 +28,8 @@ body {
     color: white;
 }
 .container-fluid {
+    display: flex;
+    justify-content: left;
     padding-right: 0 !important;
     padding-left: 0 !important;
     margin: 0;
@@ -35,10 +37,10 @@ body {
 }
 
 .hero-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/Images/BannerTest.jpg");
-    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/Images/Banner2.jpg");
+    width: 100vw;
     height: 40vh;
-    background-position: center;
+    background-position: left;
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;

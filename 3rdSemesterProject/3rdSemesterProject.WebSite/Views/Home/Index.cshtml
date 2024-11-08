@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<_3rdSemesterProject.WebSite.STUBApi.DTO.Departure>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,31 +7,10 @@
     <h1 class="display-4">captain jacks channel cruise</h1>
     <p>learn about <a href="https://learn.microsoft.com/aspnet/core">building web apps with asp.net core</a>.</p>
 </div> *@
-<div class="container-fluid p-0">
+<div class="container-fluid">
     <div class="hero-image">
         <div class="hero-text">
             <h1> Captain Jacks Channel Cruise</h1>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="column">
-        <div class="container">
-            <img src="/Images/DepartureCard1.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centered</div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="container">
-            <img src="/Images/DepartureCard2.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centered</div>
-            <div class="centered-top">Centered top</div>
-        </div>
-    </div>
-    <div class="column">
-        <div class="container">
-            <img src="/Images/DepartureCard3.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centereddsdsds</div>
         </div>
     </div>
 </div>
@@ -38,20 +18,38 @@
 <div class="flex-container">
     <div>
         <div class="container">
-            <img src="/Images/DepartureCard3.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centereddsdsds</div>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure1.jpg" alt="Departure1" width="250" height="320"></a>
+            <div class="centered">
+                @Model.ElementAt(0).Title
+                <br/>
+                @Model.ElementAt(0).Price €
+                <br/>
+                @Model.ElementAt(0).Duration min
+            </div>
         </div>
     </div>
     <div>
         <div class="container">
-            <img src="/Images/DepartureCard3.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centereddsdsds</div>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure2.jpg" alt="Departure2" width="250" height="320"></a>
+            <div class="centered">
+                @Model.ElementAt(1).Title
+                <br />
+                @Model.ElementAt(1).Price €
+                <br />
+                @Model.ElementAt(1).Duration min
+            </div>
         </div>
     </div>
     <div>
         <div class="container">
-            <img src="/Images/DepartureCard3.jpg" alt="Error" width="250" height="320">
-            <div class="centered">Centereddsdsds</div>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure3.jpg" alt="Departure3" width="250" height="320"></a>
+            <div class="centered">
+                @Model.ElementAt(2).Title
+                <br />
+                @Model.ElementAt(2).Price €
+                <br />
+                @Model.ElementAt(2).Duration min
+            </div>
         </div>
     </div>
 </div>
