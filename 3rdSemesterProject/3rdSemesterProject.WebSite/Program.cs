@@ -1,7 +1,12 @@
+using _3rdSemesterProject.WebSite.APIStub;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7034/api/v1/"));
+builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClientStub());
 
 var app = builder.Build();
 

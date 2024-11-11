@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _3rdSemesterProject.DataAccess.Models__Lasse_;
+
+public class Order
+{
+    public int CustomerID { get; set; }
+    public int DepartureID { get; set; }
+    public int SeatsReserved { get; set; }
+    public decimal TotalPrice { get; set; }
+    public int OrderID { get; set; }
+}
