@@ -28,20 +28,20 @@ public class OrdersController : Controller
     }
 
     // GET: OrdersController/Create
-    //public ActionResult Create()
-    //{
+    public ActionResult Create()
+    {
 
-    //    var model = new OrderDepartureDTOCombined();
-    //    model.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
-    //    return View(model);
-    //}
+        var model = new OrderDepartureDTOCombined();
+        model.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
+        return View(model);
+    }
 
     // GET: OrdersController/Create/Id
     public ActionResult Create(int id)
     {
-        //HACK: Change hardcoded 1 in both creates to take an input departureID input
+        //HACK: Change hardcoded 0 in both creates to take an input departureID input
         var model = new OrderDepartureDTOCombined();
-        model.AvailableSeats = _restClient.GetDepartureById(1).AvailableSeats;
+        model.AvailableSeats = _restClient.GetDepartureById(0).AvailableSeats;
         return View(model);
     }
 
@@ -52,7 +52,7 @@ public class OrdersController : Controller
     {
         try
         {
-            newCombinedOrder.AvailableSeats = _restClient.GetDepartureById(1).AvailableSeats;
+            newCombinedOrder.AvailableSeats = _restClient.GetDepartureById(0).AvailableSeats;
             if (newCombinedOrder.AvailableSeats < newCombinedOrder.SeatsReserved)
             {
                 ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure");
