@@ -1,12 +1,12 @@
-using _3rdSemesterProject.WebSite.APIStub;
+using _3rdSemesterProject.WebSite.STUBApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7034/api/v1/"));
-builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClientStub());
+//builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7120/api/v1/"));
+builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7120/api/v1/"));
 
 var app = builder.Build();
 

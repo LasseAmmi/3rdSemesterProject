@@ -7,18 +7,20 @@ namespace _3rdSemesterProject.WebSite.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-    readonly Stub client;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly ILogger<HomeController> _logger;
+    private readonly STUBApi.IRestClient _restClient;
+
+
+    public HomeController(ILogger<HomeController> logger, STUBApi.IRestClient restClient)
     {
         _logger = logger;
-        client = new Stub();
+        _restClient = restClient;
     }
 
     public IActionResult Index()
     {
-        return View(client.GetDepartures());
+        return View(_restClient.GetThreeDepartures());
     }
 
     public IActionResult Privacy()
