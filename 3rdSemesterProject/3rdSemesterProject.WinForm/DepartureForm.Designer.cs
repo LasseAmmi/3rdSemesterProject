@@ -31,6 +31,8 @@
             pnlList = new Panel();
             lstDepartures = new ListBox();
             grpItem = new GroupBox();
+            btnDelete = new Button();
+            btnCreate = new Button();
             btnUpdate = new Button();
             txtDescription = new TextBox();
             lblDescription = new Label();
@@ -45,8 +47,6 @@
             lblPrice = new Label();
             lblDepTime = new Label();
             dtpDepTime = new DateTimePicker();
-            btnCreate = new Button();
-            btnDelete = new Button();
             pnlList.SuspendLayout();
             grpItem.SuspendLayout();
             SuspendLayout();
@@ -93,6 +93,26 @@
             grpItem.TabIndex = 1;
             grpItem.TabStop = false;
             grpItem.Text = "Selected Item";
+            // 
+            // btnDelete
+            // 
+            btnDelete.Location = new Point(286, 397);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(75, 23);
+            btnDelete.TabIndex = 17;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnCreate
+            // 
+            btnCreate.Location = new Point(6, 397);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(75, 23);
+            btnCreate.TabIndex = 16;
+            btnCreate.Text = "Create new";
+            btnCreate.UseVisualStyleBackColor = true;
+            btnCreate.Click += btnCreate_Click;
             // 
             // btnUpdate
             // 
@@ -216,26 +236,6 @@
             dtpDepTime.Size = new Size(209, 23);
             dtpDepTime.TabIndex = 0;
             // 
-            // btnCreate
-            // 
-            btnCreate.Location = new Point(6, 397);
-            btnCreate.Name = "btnCreate";
-            btnCreate.Size = new Size(75, 23);
-            btnCreate.TabIndex = 16;
-            btnCreate.Text = "Create new";
-            btnCreate.UseVisualStyleBackColor = true;
-            btnCreate.Click += btnCreate_Click;
-            // 
-            // btnDelete
-            // 
-            btnDelete.Location = new Point(286, 397);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(75, 23);
-            btnDelete.TabIndex = 17;
-            btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
-            btnDelete.Click += btnDelete_Click;
-            // 
             // DepartureForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -244,7 +244,7 @@
             Controls.Add(grpItem);
             Controls.Add(pnlList);
             Name = "DepartureForm";
-            Text = "Form2";
+            Text = "Departures";
             pnlList.ResumeLayout(false);
             grpItem.ResumeLayout(false);
             grpItem.PerformLayout();

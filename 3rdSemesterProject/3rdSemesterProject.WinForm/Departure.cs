@@ -56,6 +56,6 @@ public class Departure
 
     public override string ToString()
     {
-        return DepartureID.ToString() + " " + DepartureTime.ToString();
+        return "(" + DepartureID.ToString() + ") " + DepartureTime.ToShortDateString() + " " + DepartureTime.ToShortTimeString();
     }
 }
