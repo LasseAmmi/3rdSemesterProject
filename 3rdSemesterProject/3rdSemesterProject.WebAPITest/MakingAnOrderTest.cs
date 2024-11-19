@@ -25,7 +25,14 @@ internal class MakingAnOrderTest
         //Arrange
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
-        OrderDTO order = new OrderDTO();
+        OrderDTO order = new OrderDTO()
+        {
+            OrderID = 2,
+            CustomerID = 1,
+            DepartureID = 1,
+            SeatsReserved = 5,
+            TotalPrice = 20
+        };
         //Act
         controller.CreateOrder(order);
         //Assert

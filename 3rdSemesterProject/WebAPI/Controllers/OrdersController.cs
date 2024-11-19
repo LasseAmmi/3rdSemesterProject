@@ -90,7 +90,10 @@ public class OrdersController : ControllerBase
     private bool OrderDTOValid(OrderDTO newOrder)
     {
         bool result = false;
-        if (newOrder.SeatsReserved != null && newOrder.TotalPrice != null && newOrder.DepartureID != null && newOrder.CustomerID != null)
+        if (newOrder.SeatsReserved != null && newOrder.TotalPrice != null
+            && newOrder.DepartureID != null && newOrder.CustomerID != null
+            && newOrder.SeatsReserved > 0)
+            //&& newOrder.SeatsReserved <= DeparturesController.FindDepartureById(newOrder.DepartureID).AvailableSeats
         {
             result = true;
         }

@@ -18,11 +18,11 @@ public class Tests
         //Arrange
         RestAPIClientStub client = new RestAPIClientStub();
         OrdersController controller = new OrdersController(client);
-        var model = new OrderDepartureDTOCombined();
+        OrderDepartureDTOCombined model = new OrderDepartureDTOCombined();
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
-        model.SeatsReserved = client.getFirstDeparture().AvailableSeats + 1;
+        model.SeatsReserved = model.AvailableSeats + 1;
         //Act
-        controller.Create(model, model.OrderID);
+        controller.Create(model, model.DepartureID);
         //Assert
         Assert.IsEmpty(client._orders);
     }
@@ -37,7 +37,7 @@ public class Tests
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
         model.SeatsReserved = -1;
         //Act
-        controller.Create(model, model.OrderID);
+        controller.Create(model, model.DepartureID);
         //Assert
         Assert.IsEmpty(client._orders);
     }
@@ -52,7 +52,7 @@ public class Tests
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
         model.SeatsReserved = client.getFirstDeparture().AvailableSeats - 1;
         //Act
-        controller.Create(model, model.OrderID);
+        controller.Create(model, model.DepartureID);
         //Assert
         Assert.IsTrue(client._orders.Count() > 0);
     }
