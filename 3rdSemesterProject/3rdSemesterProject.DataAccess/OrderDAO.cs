@@ -10,6 +10,7 @@ namespace _3rdSemesterProject.DataAccess
 
         private readonly string _createOrder = $"INSERT INTO Order (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES (@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved)";
         private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM Order WHERE PK_orderID = @id";
+        private readonly string _updateDepartureSeats = $"UPDATE Departure SET availableSeats = @seats WHERE PK_departureID = @departureID";
 
 
         public OrderDAO(string connectionstring) : base(connectionstring)
@@ -27,10 +28,16 @@ namespace _3rdSemesterProject.DataAccess
             SqlTransaction transaction = _sqlConnection.BeginTransaction();
             try
             {
-                var command = new SqlCommand(_createOrder, _sqlConnection);
-                AssignVariables(command, newOrder);
-                command.Transaction = transaction;
-                id = (int)command.ExecuteScalar();
+                var commandOrder = new SqlCommand(_createOrder, _sqlConnection);
+                var commandDepartureUpdate = new SqlCommand(_updateDepartureSeats, _sqlConnection);
+                AssignVariables(commandOrder, newOrder);
+                //Get the given departure to then change the
+                commandDepartureUpdate.Parameters.AddWithValue("@seats",);
+                commandDepartureUpdate.Parameters.AddWithValue();
+                //Not sure if the line below is necesary
+                commandOrder.Transaction = transaction;
+                id = (int)commandOrder.ExecuteScalar();
+                commandDepartureUpdate.ExecuteNonQuery();
 
                 transaction.Commit();
 
