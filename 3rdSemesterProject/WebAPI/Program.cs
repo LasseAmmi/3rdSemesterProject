@@ -1,7 +1,11 @@
+using Microsoft.Extensions.Configuration;
+using WebAPI.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IOrderDAO>(
+    (cs) => new OrderDAOStub(builder.Configuration["WebApiURI"]));
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
