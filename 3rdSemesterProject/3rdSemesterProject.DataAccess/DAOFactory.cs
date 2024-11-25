@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _3rdSemesterProject.DataAccess;
 
-internal class DAOFactory
+public static class DAOFactory
 {
     public static T CreateRepository<T>(string connectionstring) where T : class
     {

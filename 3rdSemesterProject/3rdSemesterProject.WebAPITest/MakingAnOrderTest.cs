@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ internal class MakingAnOrderTest
         //Arrange
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
-        OrderDTO order = new OrderDTO()
+        Order order = new Order()
         {
             OrderID = 2,
             CustomerID = 1,

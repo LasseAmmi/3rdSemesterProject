@@ -8,15 +8,13 @@ namespace _3rdSemesterProject.DataAccess
     {
         #region SQL queries and constructor
 
-        private readonly string _createOrder = $"INSERT INTO Order (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES (@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved)";
-        private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM Order WHERE PK_orderID = @id";
-        private readonly string _updateDepartureSeats = $"UPDATE Departure SET availableSeats = @seats WHERE PK_departureID = @departureID";
-
+        private readonly string _createOrder = $"INSERT INTO [Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES (@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved)";
+        private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
+        private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID;";
 
         public OrderDAO(string connectionstring) : base(connectionstring)
         {
             CreateConnection();
-
         }
 
         #endregion
@@ -29,11 +27,11 @@ namespace _3rdSemesterProject.DataAccess
             try
             {
                 var commandOrder = new SqlCommand(_createOrder, _sqlConnection);
-                var commandDepartureUpdate = new SqlCommand(_updateDepartureSeats, _sqlConnection);
+                var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection);
                 AssignVariables(commandOrder, newOrder);
                 //Get the given departure to then change the
-                commandDepartureUpdate.Parameters.AddWithValue("@seats",);
-                commandDepartureUpdate.Parameters.AddWithValue();
+                commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
+                commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
                 //Not sure if the line below is necesary
                 commandOrder.Transaction = transaction;
                 id = (int)commandOrder.ExecuteScalar();
@@ -84,6 +82,7 @@ namespace _3rdSemesterProject.DataAccess
             Order placeHolderOrder = null;
             try
             {
+                //TODO: Fix failure 404 error
                 var command = new SqlCommand(_getOrderById, _sqlConnection);
                 _sqlConnection.Open();
                 command.Parameters.AddWithValue("@id", id);
@@ -93,8 +92,10 @@ namespace _3rdSemesterProject.DataAccess
                     return CreateOrderPlaceHolder(sqlDataReader);
                 }
             }
-            catch (Exception ex){ }
-
+            catch (Exception ex)
+            {
+            
+            }
 
             return placeHolderOrder;
         }

@@ -22,7 +22,7 @@ public class Tests
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
         model.SeatsReserved = model.AvailableSeats + 1;
         //Act
-        controller.Create(model, model.DepartureID);
+        controller.Create(model);
         //Assert
         Assert.IsEmpty(client._orders);
     }
@@ -36,7 +36,7 @@ public class Tests
         var model = new OrderDepartureDTOCombined();
         model.SeatsReserved = -1;
         //Act
-        controller.Create(model, model.DepartureID);
+        controller.Create(model);
         //Assert
         Assert.IsEmpty(client._orders);
     }
@@ -51,7 +51,7 @@ public class Tests
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
         model.SeatsReserved = client.getFirstDeparture().AvailableSeats - 1;
         //Act
-        controller.Create(model, model.DepartureID);
+        controller.Create(model);
         //Assert
         Assert.IsTrue(client._orders.Count() > 0);
     }
