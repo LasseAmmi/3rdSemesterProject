@@ -8,7 +8,7 @@ namespace _3rdSemesterProject.DataAccess
     {
         #region SQL queries and constructor
 
-        private readonly string _createOrder = $"INSERT INTO [Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES (@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved)";
+        private readonly string _createOrder = $" INSERT INTO[Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES(@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved); SELECT CAST(SCOPE_IDENTITY() AS INT);";
         private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
         private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID;";
 
@@ -33,7 +33,9 @@ namespace _3rdSemesterProject.DataAccess
                 commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
                 commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
                 //Not sure if the line below is necesary
+                // it is :)
                 commandOrder.Transaction = transaction;
+                commandDepartureUpdate.Transaction = transaction;
                 id = (int)commandOrder.ExecuteScalar();
                 commandDepartureUpdate.ExecuteNonQuery();
 
@@ -48,7 +50,7 @@ namespace _3rdSemesterProject.DataAccess
                     transaction.Rollback();
 
                 }
-                catch(Exception exRollback)
+                catch (Exception exRollback)
                 {
                     throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
 
@@ -94,7 +96,7 @@ namespace _3rdSemesterProject.DataAccess
             }
             catch (Exception ex)
             {
-            
+
             }
 
             return placeHolderOrder;
