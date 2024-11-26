@@ -1,5 +1,6 @@
 ﻿using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
+using Microsoft.AspNetCore.Mvc;
 using WebAPI.DAL.DTO;
 
 namespace WebAPI.DAL;
@@ -21,23 +22,17 @@ public class OrderDAOStub : IOrderDAO
         return newOrder.OrderID;
     }
 
+    public int UpdateOrderById(int id)
+    {
+        throw new NotImplementedException();
+    }
     public int DeleteOrderById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Order GetOrderByID(int orderID)
-    {
-        return _orders[orderID];
-    }
-
     public Order GetOrderById(int id)
     {
-        throw new NotImplementedException();
-    }
-
-    public int UpdateOrderById(int id)
-    {
-        throw new NotImplementedException();
+        return _orders[id];
     }
 }

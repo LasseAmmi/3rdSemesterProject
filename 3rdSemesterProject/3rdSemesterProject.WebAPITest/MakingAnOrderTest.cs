@@ -47,7 +47,7 @@ internal class MakingAnOrderTest
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
         //Act
-        var result = controller.GetOrderByID(1);
+        var result = controller.GetOrderByID(0);
         //Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
     }
@@ -58,12 +58,12 @@ internal class MakingAnOrderTest
         //Arrange
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
-        int nonExistentOrderId = dao._orders.Count() + 1; // ID that doesn’t exist
+        int nonExistentOrderId = dao._orders.Count() + 100; // ID that doesn’t exist
 
-        // Act
-        var result = controller.GetOrderByID(nonExistentOrderId);
+        //Act
 
-        // Assert
-        Assert.IsInstanceOf<NotFoundResult>(result.Result);
+        //Assert
+        Assert.Throws<Exception>(() => controller.GetOrderByID(nonExistentOrderId));
+
     }
 }

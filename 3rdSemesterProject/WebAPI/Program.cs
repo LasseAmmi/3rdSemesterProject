@@ -4,21 +4,8 @@ using WebAPI.DAL;
 
 //TODO: Change Stub to acces the real db.
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddScoped<IOrderDAO>(
-//    (cs) => new OrderDAOStub(builder.Configuration["WebApiURI"]));
-//builder.Services.AddScoped<_3rdSemesterProject.DataAccess.IOrderDAO>(
-//    (cs) =>
-//    {
-//        return DAOFactory.CreateRepository<_3rdSemesterProject.DataAccess.IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection"));
-//    });
 
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-
-//builder.Services.AddScoped<_3rdSemesterProject.DataAccess.IOrderDAO>(
-//    (cs) => DAOFactory.CreateRepository<_3rdSemesterProject.DataAccess.IOrderDAO>(connectionString));
-
-builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<_3rdSemesterProject.DataAccess.IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllers();
