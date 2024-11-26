@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _3rdSemesterProject.WinForm.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,16 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using _3rdSemesterProject.WinForm.Controllers;
 
-namespace _3rdSemesterProject.WinForm;
+
+namespace _3rdSemesterProject.WinForm.Forms;
 
 public partial class DepartureForm : Form
 {
-    private Departure _dep;
+    private DepartureController _depCtrl;
 
     public DepartureForm()
     {
         InitializeComponent();
+        _depCtrl = new DepartureController();
         dtpDepTime.Format = DateTimePickerFormat.Custom;
         SetDataSources();
         lstDepartures.SelectedIndex = 0;
@@ -25,24 +29,24 @@ public partial class DepartureForm : Form
 
     private void SetDataSources()
     {
-        lstDepartures.DataSource = Departure.GetAllDepartures();
-        cmbBoat.DataSource = Boat.GetAllBoats();
-        cmbRoute.DataSource = Route.GetAllRoutes();
+        lstDepartures.DataSource = DepartureController.GetAllDepartures();
+        cmbBoat.DataSource = DepartureController.GetAllBoats();
+        cmbRoute.DataSource = DepartureController.GetAllRoutes();
 
     }
 
     private void UpdateControlsForSelected()
     {
-        _dep = lstDepartures.SelectedItem as Departure;
-        if (_dep != null)
+        _depCtrl.Departure = lstDepartures.SelectedItem as Departure;
+        if (_depCtrl.Departure != null)
         {
-            dtpDepTime.Value = _dep.DepartureTime;
-            txtPrice.Text = _dep.Price.ToString();
-            chkAllInclusive.Checked = _dep.AllInclusive;
-            txtAvailableSeats.Text = _dep.AvailableSeats.ToString();
-            cmbBoat.SelectedItem = _dep.DepartureBoat;
-            cmbRoute.SelectedItem = _dep.DepartureRoute;
-            txtDescription.Text = _dep.Description;
+            dtpDepTime.Value = _depCtrl.Departure.DepartureTime;
+            txtPrice.Text = _depCtrl.Departure.Price.ToString();
+            chkAllInclusive.Checked = _depCtrl.Departure.AllInclusive;
+            txtAvailableSeats.Text = _depCtrl.Departure.AvailableSeats.ToString();
+            cmbBoat.SelectedItem = _depCtrl.Departure.DepartureBoat;
+            cmbRoute.SelectedItem = _depCtrl.Departure.DepartureRoute;
+            txtDescription.Text = _depCtrl.Departure.Description;
         }
     }
 
@@ -68,7 +72,7 @@ public partial class DepartureForm : Form
         updatedDep.DepartureBoat = cmbBoat.SelectedItem as Boat;
         updatedDep.DepartureRoute = cmbRoute.SelectedItem as Route;
         updatedDep.Description = txtDescription.Text;
-        updatedDep.DepartureID = _dep.DepartureID;
+        updatedDep.DepartureID = _depCtrl.Departure.DepartureID;
 
         //Call update method here with updateDep
     }

@@ -1,45 +1,16 @@
-﻿using System;
+﻿using _3rdSemesterProject.WinForm.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3rdSemesterProject.WinForm;
+namespace _3rdSemesterProject.WinForm.Controllers;
 
-public class Departure
+public class DepartureController
 {
 
-    public DateTime DepartureTime { get; set; }
-
-    public decimal Price { get; set; }
-
-    public string Description { get; set; } 
-
-    public bool AllInclusive { get; set; }
-
-    public Route DepartureRoute { get; set; }
-
-    public Boat DepartureBoat { get; set; }
-
-    public int AvailableSeats { get; set; }
-
-    public int DepartureID { get; set; }
-
-    public Departure(DateTime depTime, decimal price, string description, bool allInclusive, Route route, Boat boat, int id)
-    {
-        this.DepartureTime = depTime;
-        this.Price = price;
-        this.Description = description;
-        this.AllInclusive = allInclusive;
-        this.DepartureRoute = route;
-        this.DepartureBoat = boat;
-        this.DepartureID = id;
-    }
-
-    public Departure()
-    {
-        
-    }
+    public Departure Departure { get; set; }
 
     public static List<Departure> GetAllDepartures() //TODO: Implement API call to get all departures
     {
@@ -54,8 +25,15 @@ public class Departure
         return departures;
     }
 
-    public override string ToString()
+    public static List<Boat> GetAllBoats()
     {
-        return "(" + DepartureID.ToString() + ") " + DepartureTime.ToShortDateString() + " " + DepartureTime.ToShortTimeString();
+        return BoatController.GetAllBoats();
     }
+
+    public static List<Route> GetAllRoutes()
+    {
+        return RouteController.GetAllRoutes();
+    }
+
+
 }

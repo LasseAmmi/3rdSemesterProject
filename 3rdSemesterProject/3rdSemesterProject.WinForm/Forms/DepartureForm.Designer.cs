@@ -1,4 +1,4 @@
-﻿namespace _3rdSemesterProject.WinForm
+﻿namespace _3rdSemesterProject.WinForm.Forms
 {
     partial class DepartureForm
     {
@@ -92,7 +92,7 @@
             grpItem.Size = new Size(367, 426);
             grpItem.TabIndex = 1;
             grpItem.TabStop = false;
-            grpItem.Text = "Selected Item";
+            grpItem.Text = "Departure";
             // 
             // btnDelete
             // 
