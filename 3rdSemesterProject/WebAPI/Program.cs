@@ -1,8 +1,13 @@
-using _3rdSemesterProject.WebAPI.DALStub;
+using _3rdSemesterProject.DataAccess;
+using Microsoft.Extensions.Configuration;
+using WebAPI.DAL;
+
+//TODO: Change Stub to acces the real db.
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

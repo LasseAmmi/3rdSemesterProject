@@ -5,8 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7120/api/v1/"));
-builder.Services.AddSingleton<IRestClient>((_) => new RestApiClient("https://localhost:7120/api/v1/"));
+//TODO: Change so that the stub is no longer used
+builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClient("https://localhost:7034/api/v1/"));
+//builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClientStub());
 
 var app = builder.Build();
 
