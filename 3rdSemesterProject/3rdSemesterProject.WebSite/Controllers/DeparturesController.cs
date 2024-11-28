@@ -16,7 +16,8 @@ public class DeparturesController : Controller
     // GET: DeparturesController
     public ActionResult DeparturesOnRoute(int id)
     {
-        return View(_restClient.GetDeparturesByRouteId(id));
+        var departures = _restClient.GetDeparturesByRouteId(id);
+        return View(departures);
     }
 
     // GET: DeparturesController/Details/5

@@ -17,8 +17,7 @@ public class RoutesController : Controller
     // GET: RoutesController
     public ActionResult Index()
     {
-        var routes = _restClient.GetThreeRoutes(); 
-        return View(routes);
+        return View(_restClient.GetThreeRoutes());
     }
 
     // GET: RoutesController/Details/5

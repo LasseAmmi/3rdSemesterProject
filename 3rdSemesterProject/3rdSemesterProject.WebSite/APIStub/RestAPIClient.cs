@@ -13,9 +13,10 @@ public class RestAPIClient : IRestClient
 
     public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id)
     {   
-        RestRequest request = new RestRequest($"departures/departuresByRouteId/id");
+        RestRequest request = new RestRequest("departures/departuresByRouteId");
         request.AddParameter("id", id); 
-        return _client.Get<IEnumerable<DepartureDTO>>(request);
+        var response = _client.Get<IEnumerable<DepartureDTO>>(request);
+        return response;
     }
     public IEnumerable<RouteDTO> GetThreeRoutes()
     {
