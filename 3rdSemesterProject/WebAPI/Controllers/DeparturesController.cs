@@ -1,4 +1,5 @@
-﻿using _3rdSemesterProject.WebAPI.DALStub;
+﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,16 +10,17 @@ namespace _3rdSemesterProject.WebAPI.Controllers;
 [ApiController]
 public class DeparturesController : ControllerBase
 {
-    IDeparturesDAO _departuresDAO;
-    public DeparturesController(IDeparturesDAO departuresDAO)
+    IDepartureDAO _departuresDAO;
+    const string baseURI = "api/v1/[controller]";
+    public DeparturesController(IDepartureDAO departuresDAO)
     {
         _departuresDAO = departuresDAO;
     }
     // GET: api/<DeparturesController>
-    [HttpGet]
-    public ActionResult<IEnumerable<Departure>> Get()
+    [HttpGet("departuresByRouteId")]
+    public ActionResult<IEnumerable<Departure>> GetDeparturesByRouteId(int id)
     {
-        return Ok(_departuresDAO.GetThreeDepartures());
+        return Ok(_departuresDAO.GetDeparturesByRouteId(id));
     }
 
 // GET api/<DeparturesController>/5

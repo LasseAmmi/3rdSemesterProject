@@ -8,4 +8,6 @@ public interface IRestClient
     DepartureDTO GetDepartureById(int id);
     public DepartureDTO getFirstDeparture();
     IEnumerable<RouteDTO> GetThreeRoutes();
+    public RouteDTO GetRouteById(int id);
+    IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id);
 }

@@ -6,11 +6,23 @@ namespace _3rdSemesterProject.WebSite.APIStub;
 public class RestAPIClient : IRestClient
 {
     RestClient _client;
-
     public RestAPIClient(string baseAPIURL)
     {
-            _client = new RestClient(baseAPIURL);
+        _client = new RestClient(baseAPIURL);
     }
+
+    public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id)
+    {   
+        RestRequest request = new RestRequest($"departures/departuresByRouteId/id");
+        request.AddParameter("id", id); 
+        return _client.Get<IEnumerable<DepartureDTO>>(request);
+    }
+    public IEnumerable<RouteDTO> GetThreeRoutes()
+    {
+        
+        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
+    }
+
 
     public int CreateOrder(OrderDTO newOrder)
     {
@@ -23,14 +35,15 @@ public class RestAPIClient : IRestClient
         throw new NotImplementedException();
     }
 
+
     public DepartureDTO getFirstDeparture()
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<RouteDTO> GetThreeRoutes()
+    public RouteDTO GetRouteById(int id)
     {
-        
-        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
+        throw new NotImplementedException();
     }
+
 }

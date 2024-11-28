@@ -8,6 +8,6 @@ namespace _3rdSemesterProject.DataAccess;
 
 public interface IDepartureDAO
 {
-    IEnumerable<Departure> GetThreeDepartures();
+    IEnumerable<Departure> GetDeparturesByRouteId(int id);
     Departure GetDepartureById(int id);
 }

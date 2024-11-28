@@ -32,7 +32,7 @@ public class OrdersController : Controller
     {
         var model = new OrderDepartureDTOCombined();
         model.AvailableSeats = departure.AvailableSeats;
-        model.DepartureID = departure.DepartureID;
+        model.DepartureID = departure.PK_departureID;
         return View(model);
     }
 
