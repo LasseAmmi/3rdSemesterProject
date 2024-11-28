@@ -14,6 +14,7 @@ public class RestApiClient : IRestClient
     }
     public IEnumerable<Departure> GetThreeDepartures()
     {
-        return _client.Get<IEnumerable<Departure>>(new RestRequest("departures")).Take(3);
+        return null;
+       // return _client.Get<IEnumerable<Departure>>(new RestRequest("departures")).Take(3);
     }
 }

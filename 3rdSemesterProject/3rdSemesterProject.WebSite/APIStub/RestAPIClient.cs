@@ -27,4 +27,10 @@ public class RestAPIClient : IRestClient
     {
         throw new NotImplementedException();
     }
+
+    public IEnumerable<RouteDTO> GetThreeRoutes()
+    {
+        
+        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
+    }
 }

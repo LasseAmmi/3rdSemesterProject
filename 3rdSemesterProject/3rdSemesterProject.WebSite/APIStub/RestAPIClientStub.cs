@@ -10,6 +10,12 @@ public class RestAPIClientStub : IRestClient
     public List<DepartureDTO> _departures = new List<DepartureDTO>()
     { new DepartureDTO() { AvailableSeats = 10, TicketPrice = 5, DepartureTime = DateTime.Now },
       new DepartureDTO() { AvailableSeats = 20, TicketPrice = 10, DepartureTime = DateTime.Now } };
+    public List<RouteDTO> _routes = new List<RouteDTO>()
+    {
+        new RouteDTO() { RouteID = 1, Description = "The description for route 1", Duration = 45, Title = "Route 1" },
+        new RouteDTO() { RouteID = 2, Description = "The description for route 2", Duration = 60, Title = "Route 2" },
+        new RouteDTO() { RouteID = 3, Description = "The description for route 3", Duration = 90, Title = "Route 3" }
+    };
 
     public RestAPIClientStub()
     {
@@ -38,5 +44,10 @@ public class RestAPIClientStub : IRestClient
     public DepartureDTO getFirstDeparture()
     {
         return _departures.First();
+    }
+
+    public IEnumerable<RouteDTO> GetThreeRoutes()
+    {
+        return _routes.Take(3);
     }
 }

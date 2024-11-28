@@ -1,5 +1,5 @@
 using _3rdSemesterProject.WebSite.Models;
-using _3rdSemesterProject.WebSite.STUBApi;
+using _3rdSemesterProject.WebSite.APIStub;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,10 +9,10 @@ public class HomeController : Controller
 {
 
     private readonly ILogger<HomeController> _logger;
-    private readonly STUBApi.IRestClient _restClient;
+    private readonly APIStub.IRestClient _restClient;
 
 
-    public HomeController(ILogger<HomeController> logger, STUBApi.IRestClient restClient)
+    public HomeController(ILogger<HomeController> logger, APIStub.IRestClient restClient)
     {
         _logger = logger;
         _restClient = restClient;
@@ -20,7 +20,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View(_restClient.GetThreeDepartures());
+        return View(_restClient.GetThreeRoutes());
     }
 
     public IActionResult Privacy()

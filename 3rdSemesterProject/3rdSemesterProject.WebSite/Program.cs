@@ -1,4 +1,4 @@
-using _3rdSemesterProject.WebSite.STUBApi;
+using _3rdSemesterProject.WebSite.APIStub;
 
 var builder = WebApplication.CreateBuilder(args);
 

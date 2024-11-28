@@ -1,4 +1,4 @@
-﻿@model IEnumerable<_3rdSemesterProject.WebSite.STUBApi.DTO.Departure>
+﻿@model IEnumerable<_3rdSemesterProject.WebSite.Models.DTO.RouteDTO>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -18,11 +18,9 @@
 <div class="flex-container">
     <div>
         <div class="container">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure1.jpg" alt="Departure1" width="250" height="320"></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure1.jpg" alt="Route1" width="250" height="320"></a>
             <div class="centered">
                 @Model.ElementAt(0).Title
-                <br/>
-                @Model.ElementAt(0).Price €
                 <br/>
                 @Model.ElementAt(0).Duration min
             </div>
@@ -30,11 +28,9 @@
     </div>
     <div>
         <div class="container">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure2.jpg" alt="Departure2" width="250" height="320"></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure2.jpg" alt="Route2" width="250" height="320"></a>
             <div class="centered">
                 @Model.ElementAt(1).Title
-                <br />
-                @Model.ElementAt(1).Price €
                 <br />
                 @Model.ElementAt(1).Duration min
             </div>
@@ -42,11 +38,9 @@
     </div>
     <div>
         <div class="container">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure3.jpg" alt="Departure3" width="250" height="320"></a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><img src="/Images/Departure3.jpg" alt="Route3" width="250" height="320"></a>
             <div class="centered">
                 @Model.ElementAt(2).Title
-                <br />
-                @Model.ElementAt(2).Price €
                 <br />
                 @Model.ElementAt(2).Duration min
             </div>
