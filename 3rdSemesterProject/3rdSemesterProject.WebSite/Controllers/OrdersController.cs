@@ -57,6 +57,7 @@ public class OrdersController : Controller
             else
             {
                 _restClient.CreateOrder(ConvertToOrderDTO(model));
+                TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
                 return Redirect("/home/index");
             }
 
