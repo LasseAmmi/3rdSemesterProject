@@ -41,31 +41,31 @@ public class OrdersController : Controller
     // POST: OrdersController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(OrderDepartureDTOCombined newCombinedOrder)
+    public ActionResult Create(OrderDepartureDTOCombined model)
     {
         try
         {
-            newCombinedOrder.AvailableSeats = _restClient.GetDepartureById(newCombinedOrder.DepartureID).AvailableSeats;
-            if (newCombinedOrder.AvailableSeats < newCombinedOrder.SeatsReserved)
+            model.AvailableSeats = _restClient.GetDepartureById(model.DepartureID).AvailableSeats;
+            if (model.AvailableSeats < model.SeatsReserved)
             {
                 ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure"); // TODO: Perhaps change this
             }
-            else if (newCombinedOrder.SeatsReserved < 1)
+            else if (model.SeatsReserved <= 1)
             {
                 ModelState.AddModelError("SeatsReserved", "Error you must input a positiv number of seats to reserve");
             }
             else
             {
-                int newOrderID = _restClient.CreateOrder(ConvertToOrderDTO(newCombinedOrder));
+                _restClient.CreateOrder(ConvertToOrderDTO(model));
                 return Redirect("/home/index");
             }
 
             if (!ModelState.IsValid)
             {
-                newCombinedOrder.AvailableSeats = _restClient.getFirstDeparture().AvailableSeats;
-                return View(newCombinedOrder);
+                model.AvailableSeats = _restClient.GetDepartureById(model.DepartureID).AvailableSeats;
+                return View(model);
             }
-            return View(newCombinedOrder);
+            return View(model);
         }
         catch
         {

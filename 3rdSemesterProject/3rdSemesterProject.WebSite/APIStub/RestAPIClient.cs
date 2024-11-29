@@ -40,8 +40,24 @@ public class RestAPIClient : IRestClient
     }
     public int CreateOrder(OrderDTO newOrder)
     {
-        //_client.CreateNewOrder(newOrder);
-        throw new NotImplementedException();
+        try
+        {
+            RestRequest request = new RestRequest("orders/CreateOrder");
+            request.AddJsonBody(newOrder);
+            var response = _client.Post<int>(request);
+            if (response != 0)
+            {
+                return response;
+            }
+            else
+            {
+                throw new Exception("Could not create order.");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
 

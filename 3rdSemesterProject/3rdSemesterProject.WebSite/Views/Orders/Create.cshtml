@@ -1,5 +1,4 @@
 ﻿@model _3rdSemesterProject.WebSite.Models.DTO.CombinedDTO.OrderDepartureDTOCombined
-@* @model _3rdSemesterProject.WebSite.Models.DTO.OrderDTO *@
 
 @{
     ViewData["Title"] = "Create";
@@ -11,10 +10,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type ="hidden" asp-for="DepartureID" />
-            <input type="hidden" asp-for="AvailableSeats" />
+
             <div class="form-group">
                 <label class="control-label">Available Seats</label>
                 <div class="form-control-plaintext">
@@ -22,19 +20,26 @@
                 </div>
             </div>
 
+            @Html.HiddenFor(model => model.AvailableSeats)
+
+            @Html.HiddenFor(model => model.DepartureID)
+
             <div class="form-group">
                 <label asp-for="SeatsReserved" class="control-label"></label>
                 <input asp-for="SeatsReserved" class="form-control" />
                 <span asp-validation-for="SeatsReserved" class="text-danger"></span>
             </div>
+
             <br />
             <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
+
 <br />
 <br />
 <div>
