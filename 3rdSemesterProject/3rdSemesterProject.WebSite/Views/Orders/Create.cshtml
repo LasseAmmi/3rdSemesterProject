@@ -13,7 +13,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <input type ="hidden" asp-for="DepartureID" />
+            <input type="hidden" asp-for="AvailableSeats" />
             <div class="form-group">
                 <label class="control-label">Available Seats</label>
                 <div class="form-control-plaintext">
@@ -37,7 +38,8 @@
 <br />
 <br />
 <div>
-    <a asp-action="Index">Back to departures</a>
+    @*<a asp-controller="Departures" asp-action="DeparturesOnRoute">Back to departures</a>*@
+        <a href="javascript:window.history.back()">Back to departures</a>
 </div>
 
 @section Scripts {
