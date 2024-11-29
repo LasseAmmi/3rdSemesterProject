@@ -12,27 +12,35 @@ public class RestAPIClient : IRestClient
     }
 
     public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id)
-    {   
+    {
         RestRequest request = new RestRequest("departures/departuresByRouteId");
-        request.AddParameter("id", id); 
+        request.AddParameter("id", id);
         var response = _client.Get<IEnumerable<DepartureDTO>>(request);
         return response;
-    }
-    public IEnumerable<RouteDTO> GetThreeRoutes()
-    {
-        
-        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
-    }
-
-
-    public int CreateOrder(OrderDTO newOrder)
-    {
-        //_client.CreateNewOrder(newOrder);
-        throw new NotImplementedException();
     }
 
     public DepartureDTO GetDepartureById(int id)
     {
+        RestRequest request = new RestRequest("departures/departureById");
+        request.AddParameter("id", id);
+        var response = _client.Get<DepartureDTO>(request);
+        if (response != null)
+        {
+            return response;
+        }
+        else
+        {
+            throw new Exception("Could not retrieve departure.");
+        }
+    }
+    public IEnumerable<RouteDTO> GetThreeRoutes()
+    {
+
+        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
+    }
+    public int CreateOrder(OrderDTO newOrder)
+    {
+        //_client.CreateNewOrder(newOrder);
         throw new NotImplementedException();
     }
 

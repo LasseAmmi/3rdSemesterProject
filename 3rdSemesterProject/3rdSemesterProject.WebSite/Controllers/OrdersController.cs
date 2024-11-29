@@ -28,9 +28,11 @@ public class OrdersController : Controller
     }
 
     // GET: OrdersController/Create/Id
-    public ActionResult Create(DepartureDTO departure)
+    [HttpGet("Orders/Create/{departureId}")]
+    public ActionResult Create(int departureId)
     {
         var model = new OrderDepartureDTOCombined();
+        var departure = _restClient.GetDepartureById(departureId);
         model.AvailableSeats = departure.AvailableSeats;
         model.DepartureID = departure.PK_departureID;
         return View(model);
