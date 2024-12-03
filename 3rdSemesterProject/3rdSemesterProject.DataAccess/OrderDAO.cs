@@ -10,7 +10,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     private readonly string _createOrder = $" INSERT INTO[Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES(@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved); SELECT CAST(SCOPE_IDENTITY() AS INT);";
     private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
-    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID;";
+    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WITH (XLOCK) WHERE PK_departureID = @departureID";
 
     public OrderDAO(string connectionstring) : base(connectionstring)
     {
@@ -32,8 +32,6 @@ public class OrderDAO : BaseDAO, IOrderDAO
             //Get the given departure to then change the
             commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
             commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
-            //Not sure if the line below is necesary
-            // it is :)
             commandOrder.Transaction = transaction;
             commandDepartureUpdate.Transaction = transaction;
             id = (int)commandOrder.ExecuteScalar();
@@ -96,9 +94,12 @@ public class OrderDAO : BaseDAO, IOrderDAO
         }
         catch (Exception ex)
         {
-
+            //TODO: Handle Exception
         }
-
+        finally
+        {
+            _sqlConnection.Close();
+        }
         return placeHolderOrder;
     }
 
