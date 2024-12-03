@@ -1,6 +1,9 @@
-﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.Data.SqlClient;
+using System.ComponentModel.DataAnnotations;
 using System.Transactions;
+using static Dapper.SqlMapper;
 
 namespace _3rdSemesterProject.DataAccess;
 
@@ -10,7 +13,8 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     private readonly string _createOrder = $" INSERT INTO[Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES(@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved); SELECT CAST(SCOPE_IDENTITY() AS INT);";
     private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
-    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure WITH(XLOCK) SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID";
+    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID";
+    private readonly string _getDepartureVersionByDepartureId = $"SELECT RowVersion FROM [Departure] WHERE PK_departureID = @id";
 
     public OrderDAO(string connectionstring) : base(connectionstring)
     {
@@ -19,41 +23,67 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     #endregion
 
-    public int CreateOrder(Order newOrder)
+    public int CreateOrder(Order newOrder, Departure departure)
     {
-        int id;
+        int id = 0;
         _sqlConnection.Open();
-        SqlTransaction transaction = _sqlConnection.BeginTransaction();
         try
         {
-            var commandOrder = new SqlCommand(_createOrder, _sqlConnection);
-            var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection);
-            AssignVariables(commandOrder, newOrder);
-            //Get the given departure to then change the
-            commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
-            commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
-            commandOrder.Transaction = transaction;
-            commandDepartureUpdate.Transaction = transaction;
-            id = (int)commandOrder.ExecuteScalar();
-            commandDepartureUpdate.ExecuteNonQuery();
+            var commandGetDeparture = new SqlCommand(_getDepartureVersionByDepartureId, _sqlConnection);
+            commandGetDeparture.Parameters.AddWithValue("@id", departure.PK_departureID);
+            SqlDataReader reader = commandGetDeparture.ExecuteReader();
+            if (reader.Read())
+            {
+                byte[] version = new byte[8];
+                //TODO: Why does this have to be here?
+                reader.GetBytes(8, 0, version, 0, 8);
 
-            transaction.Commit();
-
+                Departure comparedDeparture = DepartureDAO.CreateDeparturePlaceHolder(reader);
+                reader.Close();
+                if (comparedDeparture.RowVersion.SequenceEqual(departure.RowVersion))
+                {
+                    //TODO: Decide whether the hard cast is necesary or something else can be done
+                    SqlTransaction transaction = _sqlConnection.BeginTransaction((System.Data.IsolationLevel)IsolationLevel.Serializable);
+                    try
+                    {
+                        var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);
+                        var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection, transaction);
+                        AssignVariables(commandOrder, newOrder);
+                        commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
+                        commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
+                        //commandOrder.Transaction = transaction;
+                        //commandDepartureUpdate.Transaction = transaction;
+                        id = (int)commandOrder.ExecuteScalar();
+                        commandDepartureUpdate.ExecuteNonQuery();
+                        transaction.Commit();
+                        return id;
+                    }
+                    catch (Exception ex)
+                    {
+                        try
+                        {
+                            transaction.Rollback();
+                        }
+                        catch (Exception exRollback)
+                        {
+                            throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
+                        }
+                        throw new Exception($"Order could not be created." + ex.Message, ex);
+                    }
+                }
+                else
+                {
+                    //TODO: Handle some sort of exception and explain to the customer their seats were sold before they could complete their purchase
+                    //or that their departure has been updated and they need to try agian
+                    throw new Exception();
+                }
+            }
             return id;
         }
         catch (Exception ex)
         {
-            try
-            {
-                transaction.Rollback();
-
-            }
-            catch (Exception exRollback)
-            {
-                throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
-
-            }
-            throw new Exception($"Order could not be created." + ex.Message, ex);
+            //TODO: Handle exception that the given departure could not be found
+            throw new Exception();
         }
         finally
         {

@@ -47,7 +47,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         }
         return placeHolderDeparture;
     }
-    private Departure CreateDeparturePlaceHolder(SqlDataReader reader)
+    public static Departure CreateDeparturePlaceHolder(SqlDataReader reader)
     {
         Departure placeholderDeparture = new Departure();
         placeholderDeparture.PK_departureID = ((int)reader["PK_departureID"]);
@@ -58,6 +58,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         placeholderDeparture.Description = ((string)reader["description"]);
         placeholderDeparture.AvailableSeats = ((int)reader["availableSeats"]);
         placeholderDeparture.Time = ((DateTime)reader["time"]);
+        placeholderDeparture.RowVersion = (byte[])reader["RowVersion"];
         return placeholderDeparture;
     }
     

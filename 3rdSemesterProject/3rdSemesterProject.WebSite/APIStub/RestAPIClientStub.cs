@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
+using _3rdSemesterProject.WebSite.STUBApi.DTO;
 using RestSharp;
 using System.Linq;
 
@@ -22,7 +23,7 @@ public class RestAPIClientStub : IRestClient
     {
     }
 
-    public int CreateOrder(OrderDTO newOrder)
+    public int CreateOrder(OrderDTO newOrder, DepartureDTO departure)
     {
         if (_orders.Count() == 0)
         {

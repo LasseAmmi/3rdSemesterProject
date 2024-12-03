@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +18,13 @@ public class OrdersController : ControllerBase
     #region Variables and constructor
     const string baseURI = "api/v1/[controller]";
     IOrderDAO _orderDAO;
+    IDepartureDAO _departureDAO;
 
-    public OrdersController(IOrderDAO orderDAO)
+    public OrdersController(IOrderDAO orderDAO, IDepartureDAO departureDAO)
     {
         _orderDAO = orderDAO;
+        //TODO: Ændre det her så det er måske en controller den holder der har den DAO
+        _departureDAO = departureDAO;
     }
 
     #endregion
@@ -61,12 +65,13 @@ public class OrdersController : ControllerBase
     {
         try
         {
+            Departure departure = _departureDAO.GetDepartureById(newOrder.DepartureID);
             //TODO : Change 2 lines under this after implementation of Customers log in and price calculations
             newOrder.TotalPrice = 69;
             newOrder.CustomerID = 1;
             if (OrderDTOValid(newOrder))
             {
-                return Ok(_orderDAO.CreateOrder(newOrder));
+                return Ok(_orderDAO.CreateOrder(newOrder, departure));
             }
             else
             {
@@ -78,8 +83,6 @@ public class OrdersController : ControllerBase
             throw new Exception($"API Could not create order." + ex.Message, ex);
         }
     }
-
-    
 
     // PUT api/<OrdersController>/5
     [HttpPut("{id}")]

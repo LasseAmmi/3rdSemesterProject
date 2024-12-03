@@ -1,4 +1,5 @@
-﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,9 @@ internal class MakingAnOrderTest
             SeatsReserved = 5,
             TotalPrice = 20
         };
+        Departure departure = new Departure();
         //Act
-        controller.CreateOrder(order);
+        controller.CreateOrder(order, departure);
         //Assert
         Assert.True(dao._orders.Count() > 1);
     }

@@ -45,7 +45,8 @@ public class OrdersController : Controller
     {
         try
         {
-            model.AvailableSeats = _restClient.GetDepartureById(model.DepartureID).AvailableSeats;
+            var departure = _restClient.GetDepartureById(model.DepartureID);
+            model.AvailableSeats = departure.AvailableSeats;
             if (model.AvailableSeats < model.SeatsReserved)
             {
                 ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure"); // TODO: Perhaps change this
@@ -56,7 +57,7 @@ public class OrdersController : Controller
             }
             else
             {
-                _restClient.CreateOrder(ConvertToOrderDTO(model));
+                _restClient.CreateOrder(ConvertToOrderDTO(model), departure);
                 TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
                 return Redirect("/home/index");
             }

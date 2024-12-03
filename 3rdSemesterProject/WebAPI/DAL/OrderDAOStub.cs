@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DAL.DTO;
@@ -16,7 +17,7 @@ public class OrderDAOStub : IOrderDAO
                 
     }
 
-    public int CreateOrder(Order newOrder)
+    public int CreateOrder(Order newOrder, Departure departure)
     {
         _orders.Add(newOrder);
         return newOrder.OrderID;

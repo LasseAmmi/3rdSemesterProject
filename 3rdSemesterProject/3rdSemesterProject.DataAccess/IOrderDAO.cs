@@ -1,11 +1,12 @@
-﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 namespace _3rdSemesterProject.DataAccess;
 
 public interface IOrderDAO
 {
     Order GetOrderById(int id);
 
-    int CreateOrder(Order newOrder);
+    int CreateOrder(Order newOrder, Departure departure);
 
     int UpdateOrderById(int id);
 

@@ -1,16 +1,19 @@
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
 namespace _3rdSemesterProject.DataAccessTest;
 
 public class Tests
 {
     OrderDAO testOrderDAO;
     Order testOrder;
+    Departure testDeparture;
 
     [OneTimeSetUp]
     public void Setup()
     {
         testOrder = new Order();
+        testDeparture = new Departure();
         testOrderDAO = new OrderDAO("Server=group3db.clwaww2kakx8.eu-north-1.rds.amazonaws.com,1433;Database=CaptainJacksBoatTours;User Id=buurgaard;Password=group3secretpassword;Encrypt=True;TrustServerCertificate=True;"); 
     }
 
@@ -29,7 +32,7 @@ public class Tests
         //Arrange
         
         //Act
-        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder);
+        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder, testDeparture);
 
         //Assert
         Assert.IsTrue(testOrder.OrderID > 0);
@@ -45,7 +48,7 @@ public class Tests
         
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
     }
     [Test]
 
@@ -58,7 +61,7 @@ public class Tests
        
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
     }
 
 

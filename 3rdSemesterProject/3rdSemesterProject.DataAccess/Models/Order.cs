@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,4 +15,6 @@ public class Order
     public int SeatsReserved { get; set; }
     public decimal TotalPrice { get; set; }
     public int OrderID { get; set; }
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 }

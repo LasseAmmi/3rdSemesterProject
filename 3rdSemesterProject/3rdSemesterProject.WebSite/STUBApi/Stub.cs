@@ -6,9 +6,33 @@ public class Stub
 {
     static private List<Departure> _departures = new List<Departure>()
     {
-        new Departure() {Title = "Departure1", Price = 39.95, Duration = 60},
-        new Departure() {Title = "Departure2", Price = 29.95, Duration = 90},
-        new Departure() {Title = "Departure3", Price = 19.95, Duration = 45}
+        new Departure() {
+        PK_departureID = 1,
+        FK_routeID = 1,
+        FK_boatID = 1,
+        Price = 99.99m,
+        DepartureName = "Morning Ferry to Island A",
+        Description = "A beautiful ferry ride to the scenic Island A.",
+        AvailableSeats = 50,
+        },
+        new Departure() {
+        PK_departureID = 2,
+        FK_routeID = 1,
+        FK_boatID = 1,
+        Price = 99.99m,
+        DepartureName = "Morning Ferry to Island A",
+        Description = "A beautiful ferry ride to the scenic Island A.",
+        AvailableSeats = 50,
+        },
+        new Departure() {
+        PK_departureID = 2,
+        FK_routeID = 2,
+        FK_boatID = 1,
+        Price = 99.99m,
+        DepartureName = "Morning Ferry to Island A",
+        Description = "A beautiful ferry ride to the scenic Island A.",
+        AvailableSeats = 50,
+        },
     };
 
     public IEnumerable<Departure> GetDepartures()

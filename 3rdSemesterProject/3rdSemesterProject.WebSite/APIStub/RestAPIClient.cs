@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
+using _3rdSemesterProject.WebSite.STUBApi.DTO;
 using RestSharp;
 
 namespace _3rdSemesterProject.WebSite.APIStub;
@@ -38,7 +39,7 @@ public class RestAPIClient : IRestClient
 
         return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
     }
-    public int CreateOrder(OrderDTO newOrder)
+    public int CreateOrder(OrderDTO newOrder, DepartureDTO departure)
     {
         try
         {

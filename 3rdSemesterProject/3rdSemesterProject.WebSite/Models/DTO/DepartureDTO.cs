@@ -1,4 +1,6 @@
-﻿namespace _3rdSemesterProject.WebSite.Models.DTO;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace _3rdSemesterProject.WebSite.Models.DTO;
 
 public class DepartureDTO
 {
@@ -10,4 +12,6 @@ public class DepartureDTO
     public string Description { get; set; }
     public int AvailableSeats { get; set; }
     public DateTime Time { get; set; }
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 }
