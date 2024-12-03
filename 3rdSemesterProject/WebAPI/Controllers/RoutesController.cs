@@ -24,7 +24,6 @@ public class RoutesController : ControllerBase
     public ActionResult<IEnumerable<DataAccess.Models.Route>> Get()
     {
         return Ok(_routeDAO.GetThreeRoutes());
-        //return _routeDAO.GetRouteById(1);
     }
 
     // GET api/<RoutesController>/5
