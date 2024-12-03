@@ -10,7 +10,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     private readonly string _createOrder = $" INSERT INTO[Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES(@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved); SELECT CAST(SCOPE_IDENTITY() AS INT);";
     private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
-    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WITH (XLOCK) WHERE PK_departureID = @departureID";
+    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure WITH(XLOCK) SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID";
 
     public OrderDAO(string connectionstring) : base(connectionstring)
     {
