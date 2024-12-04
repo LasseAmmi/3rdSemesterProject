@@ -43,7 +43,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
                 if (comparedDeparture.RowVersion.SequenceEqual(departure.RowVersion))
                 {
                     //TODO: Decide whether the hard cast is necesary or something else can be done
-                    SqlTransaction transaction = _sqlConnection.BeginTransaction((System.Data.IsolationLevel)IsolationLevel.Serializable);
+                    SqlTransaction transaction = _sqlConnection.BeginTransaction((System.Data.IsolationLevel)IsolationLevel.RepeatableRead);
                     try
                     {
                         var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);
@@ -56,6 +56,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
                         id = (int)commandOrder.ExecuteScalar();
                         commandDepartureUpdate.ExecuteNonQuery();
                         transaction.Commit();
+                        
                         return id;
                     }
                     catch (Exception ex)

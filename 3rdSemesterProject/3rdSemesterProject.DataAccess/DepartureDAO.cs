@@ -13,8 +13,8 @@ namespace _3rdSemesterProject.DataAccess;
 public class DepartureDAO : BaseDAO, IDepartureDAO
 {
     #region skibidi
-    private readonly string _getDepartureById = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time FROM [Departure] WHERE PK_departureID = @id";
-    private readonly string _getDepartureByRouteId = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time FROM [Departure] WHERE FK_routeID = @id";
+    private readonly string _getDepartureById = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time, RowVersion FROM [Departure] WHERE PK_departureID = @id";
+    private readonly string _getDepartureByRouteId = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time, RowVersion FROM [Departure] WHERE FK_routeID = @id";
 
 
     public DepartureDAO(string connectionstring) : base(connectionstring)

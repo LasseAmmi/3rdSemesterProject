@@ -36,8 +36,16 @@ public class RestAPIClient : IRestClient
     }
     public IEnumerable<RouteDTO> GetThreeRoutes()
     {
-
-        return _client.Get<IEnumerable<RouteDTO>>(new RestRequest("routes"));
+        RestRequest request = new RestRequest("routes");
+        var response = _client.Get<IEnumerable<RouteDTO>>(request);
+        if (response != null)
+        {
+            return response;
+        }
+        else
+        {
+            throw new Exception("Could not retrieve departure.");
+        }
     }
     public int CreateOrder(OrderDTO newOrder, DepartureDTO departure)
     {
