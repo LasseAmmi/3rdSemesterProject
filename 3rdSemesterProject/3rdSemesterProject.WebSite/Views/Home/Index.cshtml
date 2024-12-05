@@ -12,6 +12,14 @@
 </div>
 @{
     var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @errorMessage
+    </div>
 }
 
 @if (!string.IsNullOrEmpty(successMessage))

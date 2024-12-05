@@ -15,6 +15,4 @@ public class Order
     public int SeatsReserved { get; set; }
     public decimal TotalPrice { get; set; }
     public int OrderID { get; set; }
-    [Timestamp]
-    public byte[] RowVersion { get; set; }
 }

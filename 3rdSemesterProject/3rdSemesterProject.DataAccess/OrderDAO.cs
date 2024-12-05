@@ -2,7 +2,7 @@
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
-using System.Transactions;
+using System.Data;
 using static Dapper.SqlMapper;
 
 namespace _3rdSemesterProject.DataAccess;
@@ -30,7 +30,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
         {
             _sqlConnection.Open();
             //TODO: Decide whether the hard cast is necesary or something else can be done
-            SqlTransaction transaction = _sqlConnection.BeginTransaction((System.Data.IsolationLevel)IsolationLevel.RepeatableRead);
+            SqlTransaction transaction = _sqlConnection.BeginTransaction(IsolationLevel.RepeatableRead);
             try
             {
                 var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);

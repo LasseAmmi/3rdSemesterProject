@@ -18,13 +18,10 @@ public class OrdersController : ControllerBase
     #region Variables and constructor
     const string baseURI = "api/v1/[controller]";
     IOrderDAO _orderDAO;
-    IDepartureDAO _departureDAO;
 
-    public OrdersController(IOrderDAO orderDAO, IDepartureDAO departureDAO)
+    public OrdersController(IOrderDAO orderDAO)
     {
         _orderDAO = orderDAO;
-        //TODO: Ændre det her så det er måske en controller den holder der har den DAO
-        _departureDAO = departureDAO;
     }
 
     #endregion
@@ -61,7 +58,7 @@ public class OrdersController : ControllerBase
 
     // POST api/<OrdersController>
     [HttpPost("CreateOrder")]
-    public ActionResult<int> CreateOrder(Order newOrder)
+    public ActionResult<int> CreateOrder([FromBody] Order newOrder)
     {
         try
         {

@@ -29,7 +29,7 @@ public class OrdersController : Controller
 
     // GET: OrdersController/Create/Id
     [HttpGet("Orders/Create/{departureId}")]
-    public ActionResult Create(int departureId)
+    public IActionResult Create(int departureId)
     {
         try
         {
@@ -58,7 +58,7 @@ public class OrdersController : Controller
             {
                 ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure"); // TODO: Perhaps change this
             }
-            else if (model.SeatsReserved <= 1)
+            else if (model.SeatsReserved < 1)
             {
                 ModelState.AddModelError("SeatsReserved", "Error you must input a positiv number of seats to reserve");
             }
@@ -78,7 +78,8 @@ public class OrdersController : Controller
         }
         catch
         {
-            return View();
+            TempData["ErrorMessage"] = "Order was not created. Try again later";
+            return Redirect("/home/index");
         }
     }
 
