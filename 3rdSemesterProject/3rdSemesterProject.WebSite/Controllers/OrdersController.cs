@@ -31,11 +31,18 @@ public class OrdersController : Controller
     [HttpGet("Orders/Create/{departureId}")]
     public ActionResult Create(int departureId)
     {
-        var model = new OrderDepartureDTOCombined();
-        var departure = _restClient.GetDepartureById(departureId);
-        model.AvailableSeats = departure.AvailableSeats;
-        model.DepartureID = departure.PK_departureID;
-        return View(model);
+        try
+        {
+            var model = new OrderDepartureDTOCombined();
+            var departure = _restClient.GetDepartureById(departureId);
+            model.AvailableSeats = departure.AvailableSeats;
+            model.DepartureID = departure.PK_departureID;
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Order could not be created. {ex.Message}", ex);
+        }
     }
 
     // POST: OrdersController/Create

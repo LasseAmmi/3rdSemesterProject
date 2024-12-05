@@ -16,8 +16,15 @@ public class DeparturesController : Controller
     // GET: DeparturesController
     public ActionResult DeparturesOnRoute(int id)
     {
-        var departures = _restClient.GetDeparturesByRouteId(id);
-        return View(departures);
+        try
+        {
+            var departures = _restClient.GetDeparturesByRouteId(id);
+            return View(departures);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Departures on route could not be recieved. {ex.Message}", ex);
+        }
     }
 
     // GET: DeparturesController/Details/5

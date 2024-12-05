@@ -17,18 +17,32 @@ public class RoutesController : Controller
     // GET: RoutesController
     public ActionResult Index()
     {
-        return View(_restClient.GetThreeRoutes());
+        try
+        {
+            return View(_restClient.GetThreeRoutes());
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Routes could not be recieved. {ex.Message}", ex);
+        }
     }
 
     // GET: RoutesController/Details/5
     public ActionResult Details(int routeId)
     {
-        var route = _restClient.GetRouteById(routeId);
-        if(route != null)
+        try
         {
-            return View(route); 
+            var route = _restClient.GetRouteById(routeId);
+            if (route != null)
+            {
+                return View(route);
+            }
+            return NotFound();
         }
-        return NotFound();
+        catch (Exception ex)
+        {
+            throw new Exception($"Details view did not work properly. {ex.Message}", ex);
+        }
     }
 
     // GET: RoutesController/Create

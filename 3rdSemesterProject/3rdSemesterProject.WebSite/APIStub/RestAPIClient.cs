@@ -1,5 +1,4 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
-using _3rdSemesterProject.WebSite.STUBApi.DTO;
 using RestSharp;
 
 namespace _3rdSemesterProject.WebSite.APIStub;

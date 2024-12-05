@@ -1,5 +1,4 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
-using _3rdSemesterProject.WebSite.STUBApi.DTO;
 using RestSharp;
 using System.Linq;
 
@@ -10,8 +9,8 @@ public class RestAPIClientStub : IRestClient
     public List<OrderDTO> _orders = new List<OrderDTO>();
     public CustomerDTO _customer = new CustomerDTO();
     public List<DepartureDTO> _departures = new List<DepartureDTO>()
-    { new DepartureDTO() { AvailableSeats = 10, Price = 5, Time = DateTime.Now },
-      new DepartureDTO() { AvailableSeats = 20, Price = 10, Time = DateTime.Now } };
+    { new DepartureDTO() { AvailableSeats = 10, Price = 5, Time = DateTime.Now, FK_routeID = 1 },
+      new DepartureDTO() { AvailableSeats = 20, Price = 10, Time = DateTime.Now, FK_routeID = 2 } };
     public List<RouteDTO> _routes = new List<RouteDTO>()
     {
         new RouteDTO() { PK_routeID = 1, Description = "The description for route 1", Duration = 45, Title = "Route 1" },
@@ -56,8 +55,9 @@ public class RestAPIClientStub : IRestClient
         return _routes.Take(3);
     }
 
-    IEnumerable<DepartureDTO> IRestClient.GetDeparturesByRouteId(int id)
+    public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id)
     {
-        return null;
+        var departures = _departures.Where(d => d.FK_routeID == id).ToList();
+        return departures;
     }
 }
