@@ -47,7 +47,7 @@ public class RestAPIClient : IRestClient
             throw new Exception("Could not retrieve departure.");
         }
     }
-    public int CreateOrder(OrderDTO newOrder, DepartureDTO departure)
+    public int CreateOrder(OrderDTO newOrder)
     {
         try
         {

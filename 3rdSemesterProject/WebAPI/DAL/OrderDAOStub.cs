@@ -17,7 +17,7 @@ public class OrderDAOStub : IOrderDAO
                 
     }
 
-    public int CreateOrder(Order newOrder, Departure departure)
+    public int CreateOrder(Order newOrder)
     {
         _orders.Add(newOrder);
         return newOrder.OrderID;

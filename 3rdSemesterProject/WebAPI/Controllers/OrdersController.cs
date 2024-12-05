@@ -65,13 +65,12 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            Departure departure = _departureDAO.GetDepartureById(newOrder.DepartureID);
             //TODO : Change 2 lines under this after implementation of Customers log in and price calculations
             newOrder.TotalPrice = 69;
             newOrder.CustomerID = 1;
             if (OrderDTOValid(newOrder))
             {
-                return Ok(_orderDAO.CreateOrder(newOrder, departure));
+                return Ok(_orderDAO.CreateOrder(newOrder));
             }
             else
             {

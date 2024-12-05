@@ -13,11 +13,9 @@ public class RouteDAO : BaseDAO, IRouteDAO
 {
     #region SQL queries and constructor
     private readonly string _getRouteById = $"SELECT PK_routeID, description, duration, title FROM [Route] WHERE PK_routeID = @id";
-    //TODO: Ændre så den ikke henter alt men kun det vi skal bruge
     private readonly string _getThreeRoutes = "SELECT TOP 3 PK_RouteID, description, duration, Title FROM [Route]";
     public RouteDAO(string connectionstring) : base(connectionstring)
     {
-        //_sqlConnection = new SqlConnection(connectionstring);
         CreateConnection();
     }
     #endregion

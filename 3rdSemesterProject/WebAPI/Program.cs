@@ -4,7 +4,7 @@ using WebAPI.DAL;
 
 //TODO: Change Stub to acces the real db.
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IRouteDAO>(builder.Configuration.GetConnectionString("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;")));
+
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IRouteDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IDepartureDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));

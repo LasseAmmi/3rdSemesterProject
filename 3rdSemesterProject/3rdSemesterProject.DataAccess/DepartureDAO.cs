@@ -27,9 +27,8 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         Departure placeHolderDeparture = null;
         try
         {
-            //TODO: Fix failure 404 error
-            var command = new SqlCommand(_getDepartureById, _sqlConnection);
             _sqlConnection.Open();
+            var command = new SqlCommand(_getDepartureById, _sqlConnection);
             command.Parameters.AddWithValue("@id", id);
             SqlDataReader sqlDataReader = command.ExecuteReader();
             if (sqlDataReader.Read())

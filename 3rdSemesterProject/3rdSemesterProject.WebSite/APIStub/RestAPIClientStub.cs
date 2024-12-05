@@ -23,7 +23,7 @@ public class RestAPIClientStub : IRestClient
     {
     }
 
-    public int CreateOrder(OrderDTO newOrder, DepartureDTO departure)
+    public int CreateOrder(OrderDTO newOrder)
     {
         if (_orders.Count() == 0)
         {

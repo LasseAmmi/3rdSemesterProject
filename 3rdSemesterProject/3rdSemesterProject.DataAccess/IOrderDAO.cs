@@ -6,7 +6,7 @@ public interface IOrderDAO
 {
     Order GetOrderById(int id);
 
-    int CreateOrder(Order newOrder, Departure departure);
+    int CreateOrder(Order newOrder);
 
     int UpdateOrderById(int id);
 

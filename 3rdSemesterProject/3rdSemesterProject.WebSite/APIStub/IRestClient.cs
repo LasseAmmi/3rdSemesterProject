@@ -5,7 +5,7 @@ namespace _3rdSemesterProject.WebSite.APIStub;
 
 public interface IRestClient
 {
-    int CreateOrder(OrderDTO newOrder, DepartureDTO departure);
+    int CreateOrder(OrderDTO newOrder);
     DepartureDTO GetDepartureById(int id);
     public DepartureDTO getFirstDeparture();
     IEnumerable<RouteDTO> GetThreeRoutes();
