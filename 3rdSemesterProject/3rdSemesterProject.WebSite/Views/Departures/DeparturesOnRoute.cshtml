@@ -1,0 +1,45 @@
+﻿@model IEnumerable<_3rdSemesterProject.WebSite.Models.DTO.DepartureDTO>
+
+@{
+    ViewData["Title"] = "DeparturesOnRoute";
+}
+
+<h1>DeparturesOnRoute</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableSeats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    <a href="/Orders/Create/@item.PK_departureID">Reserve seat</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

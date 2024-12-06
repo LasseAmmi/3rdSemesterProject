@@ -1,6 +1,9 @@
-﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.Data.SqlClient;
-using System.Transactions;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using static Dapper.SqlMapper;
 
 namespace _3rdSemesterProject.DataAccess;
 
@@ -10,7 +13,8 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     private readonly string _createOrder = $" INSERT INTO[Order] (totalPrice, FK_customerID, FK_departureID, seatsReserved) VALUES(@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved); SELECT CAST(SCOPE_IDENTITY() AS INT);";
     private readonly string _getOrderById = $"SELECT PK_orderID, totalPrice, FK_customerID, FK_departureID, seatsReserved FROM [Order] WHERE PK_orderID = @id";
-    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID;";
+    private readonly string _updateDepartureSeatsSubtracted = $"UPDATE Departure SET availableSeats = availableSeats - @seatsReserved WHERE PK_departureID = @departureID";
+    private readonly string _getDepartureVersionByDepartureId = $"SELECT RowVersion FROM [Departure] WHERE PK_departureID = @id";
 
     public OrderDAO(string connectionstring) : base(connectionstring)
     {
@@ -18,50 +22,52 @@ public class OrderDAO : BaseDAO, IOrderDAO
     }
 
     #endregion
-
+    //Pessimistic concurreny control
     public int CreateOrder(Order newOrder)
     {
-        int id;
-        _sqlConnection.Open();
-        SqlTransaction transaction = _sqlConnection.BeginTransaction();
+        int id = 0;
         try
         {
-            var commandOrder = new SqlCommand(_createOrder, _sqlConnection);
-            var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection);
-            AssignVariables(commandOrder, newOrder);
-            //Get the given departure to then change the
-            commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
-            commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
-            //Not sure if the line below is necesary
-            // it is :)
-            commandOrder.Transaction = transaction;
-            commandDepartureUpdate.Transaction = transaction;
-            id = (int)commandOrder.ExecuteScalar();
-            commandDepartureUpdate.ExecuteNonQuery();
+            _sqlConnection.Open();
+            //TODO: Decide whether the hard cast is necesary or something else can be done
+            SqlTransaction transaction = _sqlConnection.BeginTransaction(IsolationLevel.RepeatableRead);
+            try
+            {
+                var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);
+                var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection, transaction);
+                AssignVariables(commandOrder, newOrder);
+                commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
+                commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
+                id = (int)commandOrder.ExecuteScalar();
+                commandDepartureUpdate.ExecuteNonQuery();
+                transaction.Commit();
+                return id;
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    transaction.Rollback();
+                }
+                catch (Exception exRollback)
+                {
+                    throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
+                }
+                throw new Exception($"Order could not be created." + ex.Message, ex);
+            }
 
-            transaction.Commit();
-
-            return id;
         }
         catch (Exception ex)
         {
-            try
-            {
-                transaction.Rollback();
-
-            }
-            catch (Exception exRollback)
-            {
-                throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
-
-            }
-            throw new Exception($"Order could not be created." + ex.Message, ex);
+            throw new Exception($"Could not connect to the database" + ex.Message, ex);
         }
         finally
         {
             _sqlConnection.Close();
         }
     }
+
+
 
     private SqlCommand AssignVariables(SqlCommand cmd, Order newOrder)
     {
@@ -96,9 +102,12 @@ public class OrderDAO : BaseDAO, IOrderDAO
         }
         catch (Exception ex)
         {
-
+            //TODO: Handle Exception
         }
-
+        finally
+        {
+            _sqlConnection.Close();
+        }
         return placeHolderOrder;
     }
 

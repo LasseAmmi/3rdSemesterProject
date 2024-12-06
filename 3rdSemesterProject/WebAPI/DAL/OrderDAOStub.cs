@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
 using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.DAL.DTO;

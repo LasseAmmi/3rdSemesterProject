@@ -1,8 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebAPI.DAL.DTO;
+namespace _3rdSemesterProject.DataAccess.Models;
 
-public class DepartureDTO
+public class Departure
 {
     public int PK_departureID { get; set; }
     public int FK_routeID { get; set; }
@@ -11,7 +16,7 @@ public class DepartureDTO
     public string DepartureName { get; set; }
     public string Description { get; set; }
     public int AvailableSeats { get; set; }
-    public DateTime Time { get; set; }
+    public DateTime Time {  get; set; }
     [Timestamp]
     public byte[] RowVersion { get; set; }
 }
