@@ -53,7 +53,7 @@ public class RestAPIClient : IRestClient
             RestRequest request = new RestRequest("orders/CreateOrder");
             request.AddJsonBody(newOrder);
             var response = _client.Post<int>(request);
-            if (response != 0)
+            if (response != 0 && response != null)
             {
                 return response;
             }
@@ -64,7 +64,7 @@ public class RestAPIClient : IRestClient
         }
         catch (Exception ex)
         {
-            throw ex;
+            throw new Exception($"Rest request for creating an order did not work. {ex.Message}" ,ex);
         }
     }
 
