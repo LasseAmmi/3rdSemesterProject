@@ -14,7 +14,7 @@ public class OrderDTO
     public decimal TotalPrice { get; set; }
     [Required]
     public int OrderID { get; set; }
-
+    public DepartureDTO Departure { get; set; }
 }
 
 

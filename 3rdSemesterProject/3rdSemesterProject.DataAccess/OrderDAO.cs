@@ -29,31 +29,53 @@ public class OrderDAO : BaseDAO, IOrderDAO
         try
         {
             _sqlConnection.Open();
-            //TODO: Decide whether the hard cast is necesary or something else can be done
-            SqlTransaction transaction = _sqlConnection.BeginTransaction(IsolationLevel.RepeatableRead);
+
             try
             {
-                var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);
-                var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection, transaction);
-                AssignVariables(commandOrder, newOrder);
-                commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
-                commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
-                id = (int)commandOrder.ExecuteScalar();
-                commandDepartureUpdate.ExecuteNonQuery();
-                transaction.Commit();
-                return id;
+                //TODO: Retrieve a Departure and check if the rowversion checks out (If instead of using try?)
+                var commandGetDepartureVersion = new SqlCommand(_getDepartureVersionByDepartureId, _sqlConnection);
+                commandGetDepartureVersion.Parameters.AddWithValue("@id", newOrder.DepartureID);
+                SqlDataReader reader = commandGetDepartureVersion.ExecuteReader();
+                if (reader.Read())
+                {
+                    Departure comparedDeparture = CreateDepartureRowversion(reader);
+                    reader.Close();
+                    if (comparedDeparture.RowVersion.SequenceEqual(newOrder.Departure.RowVersion))
+                    {
+                        SqlTransaction transaction = _sqlConnection.BeginTransaction(IsolationLevel.RepeatableRead);
+                        try
+                        {
+                            var commandOrder = new SqlCommand(_createOrder, _sqlConnection, transaction);
+                            var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection, transaction);
+                            AssignVariables(commandOrder, newOrder);
+                            commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
+                            commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
+                            id = (int)commandOrder.ExecuteScalar();
+                            commandDepartureUpdate.ExecuteNonQuery();
+                            transaction.Commit();
+                            return id;
+                        }
+                        catch (Exception ex)
+                        {
+                            try
+                            {
+                                transaction.Rollback();
+                            }
+                            catch (Exception exRollback)
+                            {
+                                throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
+                            }
+                            throw new Exception($"Order could not be created." + ex.Message, ex);
+                        }                       
+                    }
+                    throw new Exception($"Version number did not match");
+                }
+                throw new Exception($"Reader failed");
             }
             catch (Exception ex)
             {
-                try
-                {
-                    transaction.Rollback();
-                }
-                catch (Exception exRollback)
-                {
-                    throw new Exception($"Rollback failed." + exRollback.Message, exRollback);
-                }
-                throw new Exception($"Order could not be created." + ex.Message, ex);
+                //Handle not being able to find the departure
+                throw new Exception($"Could not retireve the departure" + ex.Message, ex);
             }
 
         }
@@ -125,5 +147,11 @@ public class OrderDAO : BaseDAO, IOrderDAO
     public int UpdateOrderById(int id)
     {
         throw new NotImplementedException();
+    }
+    public Departure CreateDepartureRowversion(SqlDataReader reader)
+    {
+        Departure placeholderDeparture = new Departure();
+        placeholderDeparture.RowVersion = (byte[])reader["RowVersion"];
+        return placeholderDeparture;
     }
 }

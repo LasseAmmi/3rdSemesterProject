@@ -52,7 +52,7 @@ public class OrdersController : Controller
     {
         try
         {
-            var departure = _restClient.GetDepartureById(model.DepartureID);
+            DepartureDTO departure = _restClient.GetDepartureById(model.DepartureID);
             model.AvailableSeats = departure.AvailableSeats;
             if (model.AvailableSeats < model.SeatsReserved)
             {
@@ -64,6 +64,7 @@ public class OrdersController : Controller
             }
             else
             {
+                model.departure = departure;
                 _restClient.CreateOrder(ConvertToOrderDTO(model));
                 TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
                 return Redirect("/home/index");
@@ -91,6 +92,7 @@ public class OrdersController : Controller
         newOrder.DepartureID = newCombinedOrder.DepartureID;
         newOrder.SeatsReserved = newCombinedOrder.SeatsReserved;
         newOrder.TotalPrice = newCombinedOrder.TotalPrice;
+        newOrder.Departure = newCombinedOrder.departure;
         return newOrder;
     }
 

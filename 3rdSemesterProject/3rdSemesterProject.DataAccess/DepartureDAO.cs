@@ -38,7 +38,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         }
         catch (Exception ex)
         {
-
+            //TODO: Handle this exception
         }
         finally
         {

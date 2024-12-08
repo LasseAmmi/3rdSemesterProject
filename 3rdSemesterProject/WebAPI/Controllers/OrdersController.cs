@@ -62,7 +62,7 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            //TODO : Change 2 lines under this after implementation of Customers log in and price calculations
+            //TODO : Change 2 lines under this after implementation of Customers log in and Payment methods
             newOrder.TotalPrice = 69;
             newOrder.CustomerID = 1;
             if (OrderDTOValid(newOrder))

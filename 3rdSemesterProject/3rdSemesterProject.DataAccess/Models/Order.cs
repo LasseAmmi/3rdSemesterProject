@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,4 +16,5 @@ public class Order
     public int SeatsReserved { get; set; }
     public decimal TotalPrice { get; set; }
     public int OrderID { get; set; }
+    public Departure Departure { get; set; }
 }
