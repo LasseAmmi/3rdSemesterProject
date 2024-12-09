@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3rdSemesterProject.DataAccess.Models__Lasse_;
+namespace _3rdSemesterProject.DataAccess.Models;
 
 public class Order
 {

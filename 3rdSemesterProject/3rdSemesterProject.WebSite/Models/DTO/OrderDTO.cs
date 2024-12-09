@@ -7,8 +7,6 @@ public class OrderDTO
     [Required]
     public int CustomerID { get; set; }
     [Required]
-    public int DepartureID { get; set; }
-    [Required]
     public int SeatsReserved { get; set; }
     [Required]
     public decimal TotalPrice { get; set; }

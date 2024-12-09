@@ -1,4 +1,4 @@
-﻿using _3rdSemesterProject.WebSite.APIStub;
+﻿using _3rdSemesterProject.WebSite.APIClient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,10 +6,10 @@ namespace _3rdSemesterProject.WebSite.Controllers;
 
 public class RoutesController : Controller
 {
-    private readonly APIStub.IRestClient _restClient;
+    private readonly IRestClient _restClient;
 
 
-    public RoutesController(APIStub.IRestClient restClient)
+    public RoutesController(IRestClient restClient)
     {
         _restClient = new RestAPIClientStub();
     }
@@ -19,6 +19,7 @@ public class RoutesController : Controller
     {
         try
         {
+            // Is used in the opstart of the website
             return View(_restClient.GetThreeRoutes());
         }
         catch (Exception ex)

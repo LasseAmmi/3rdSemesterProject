@@ -63,11 +63,12 @@ public class RouteDAO : BaseDAO, IRouteDAO
             throw new Exception();
         }
     }
-
+    // Helper method to reduce bloat of other methods
+    // takes a reader to then create a Departure from the DataReader
     private Route CreateRoutePlaceHolder(SqlDataReader reader)
     {
         Route placeholderRoute = new Route();
-        placeholderRoute.PK_routeID = ((int)reader["PK_routeID"]);
+        placeholderRoute.RouteID = ((int)reader["PK_routeID"]);
         placeholderRoute.Description = ((string)reader["description"]);
         placeholderRoute.Duration = ((int)reader["duration"]);
         placeholderRoute.Title = ((string)reader["Title"]);

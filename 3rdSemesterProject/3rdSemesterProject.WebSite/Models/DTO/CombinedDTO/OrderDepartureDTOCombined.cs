@@ -18,6 +18,6 @@ namespace _3rdSemesterProject.WebSite.Models.DTO.CombinedDTO
         public int OrderID { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
-        public DepartureDTO departure { get; set; }
+        public DepartureDTO Departure { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _3rdSemesterProject.DataAccess;
-
+// Class to help generate the diffrent DAO's depending on the Interface needed
 public static class DAOFactory
 {
     public static T CreateRepository<T>(string connectionstring) where T : class

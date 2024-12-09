@@ -2,20 +2,22 @@
 using RestSharp;
 using System.Linq;
 
-namespace _3rdSemesterProject.WebSite.APIStub;
+namespace _3rdSemesterProject.WebSite.APIClient;
 
 public class RestAPIClientStub : IRestClient
 {
     public List<OrderDTO> _orders = new List<OrderDTO>();
     public CustomerDTO _customer = new CustomerDTO();
     public List<DepartureDTO> _departures = new List<DepartureDTO>()
-    { new DepartureDTO() { AvailableSeats = 10, Price = 5, Time = DateTime.Now, FK_routeID = 1 },
-      new DepartureDTO() { AvailableSeats = 20, Price = 10, Time = DateTime.Now, FK_routeID = 2 } };
+    {
+      new DepartureDTO() { AvailableSeats = 10, Price = 5, Time = DateTime.Now, RouteID = 1 },
+      new DepartureDTO() { AvailableSeats = 20, Price = 10, Time = DateTime.Now, RouteID = 2 }
+    };
     public List<RouteDTO> _routes = new List<RouteDTO>()
     {
-        new RouteDTO() { PK_routeID = 1, Description = "The description for route 1", Duration = 45, Title = "Route 1" },
-        new RouteDTO() { PK_routeID = 2, Description = "The description for route 2", Duration = 60, Title = "Route 2" },
-        new RouteDTO() { PK_routeID = 3, Description = "The description for route 3", Duration = 90, Title = "Route 3" }
+        new RouteDTO() { RouteID = 1, Description = "The description for route 1", Duration = 45, Title = "Route 1" },
+        new RouteDTO() { RouteID = 2, Description = "The description for route 2", Duration = 60, Title = "Route 2" },
+        new RouteDTO() { RouteID = 3, Description = "The description for route 3", Duration = 90, Title = "Route 3" }
     };
 
     public RestAPIClientStub()
@@ -57,7 +59,7 @@ public class RestAPIClientStub : IRestClient
 
     public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id)
     {
-        var departures = _departures.Where(d => d.FK_routeID == id).ToList();
+        var departures = _departures.Where(d => d.RouteID == id).ToList();
         return departures;
     }
 }

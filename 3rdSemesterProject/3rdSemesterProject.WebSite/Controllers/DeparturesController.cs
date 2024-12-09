@@ -1,4 +1,4 @@
-﻿using _3rdSemesterProject.WebSite.APIStub;
+﻿using _3rdSemesterProject.WebSite.APIClient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +6,9 @@ namespace _3rdSemesterProject.WebSite.Controllers;
 
 public class DeparturesController : Controller
 {
-    private readonly APIStub.IRestClient _restClient;
+    private readonly IRestClient _restClient;
 
-    public DeparturesController(APIStub.IRestClient restClient)
+    public DeparturesController(IRestClient restClient)
     {
         _restClient = restClient;
     }

@@ -1,12 +1,13 @@
-using _3rdSemesterProject.WebSite.APIStub;
+using _3rdSemesterProject.WebSite.APIClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//TODO: Change so that the stub is no longer used
+//Here the builder assigns that any class the calls for a IRestClient is given a RestAPIClient with this given BaseURI
 builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClient("https://localhost:7034/api/v1/"));
+//If need ever be is on the line under this written a line which redirects the IRestClient to a STUB
 //builder.Services.AddSingleton<IRestClient>((_) => new RestAPIClientStub());
 
 var app = builder.Build();

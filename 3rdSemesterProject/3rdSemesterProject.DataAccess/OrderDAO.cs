@@ -1,5 +1,4 @@
 ﻿using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.Data.SqlClient;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -22,26 +21,28 @@ public class OrderDAO : BaseDAO, IOrderDAO
     }
 
     #endregion
-    //Pessimistic concurreny control
+    //Pessimistic && optimistic concurreny control
     public int CreateOrder(Order newOrder)
     {
         int id = 0;
         try
         {
             _sqlConnection.Open();
-
             try
             {
-                //TODO: Retrieve a Departure and check if the rowversion checks out (If instead of using try?)
+                // Creates a DataReader to read the colum RowVersion
                 var commandGetDepartureVersion = new SqlCommand(_getDepartureVersionByDepartureId, _sqlConnection);
                 commandGetDepartureVersion.Parameters.AddWithValue("@id", newOrder.DepartureID);
                 SqlDataReader reader = commandGetDepartureVersion.ExecuteReader();
                 if (reader.Read())
                 {
+                    //If anything in the Reader then create a Departure with the RowVersion from the Database
                     Departure comparedDeparture = CreateDepartureRowversion(reader);
                     reader.Close();
+                    //If the RowVersion's are the same then proceed to create a Transaction and tries to save the Order and update the Departure
                     if (comparedDeparture.RowVersion.SequenceEqual(newOrder.Departure.RowVersion))
                     {
+                        // Set the Isolation level to RepeatableRead to ensure that no other changes the Departure while it is updating and solve the non repeatable reads
                         SqlTransaction transaction = _sqlConnection.BeginTransaction(IsolationLevel.RepeatableRead);
                         try
                         {
@@ -74,7 +75,6 @@ public class OrderDAO : BaseDAO, IOrderDAO
             }
             catch (Exception ex)
             {
-                //Handle not being able to find the departure
                 throw new Exception($"Could not retireve the departure" + ex.Message, ex);
             }
 
@@ -89,30 +89,13 @@ public class OrderDAO : BaseDAO, IOrderDAO
         }
     }
 
-
-
-    private SqlCommand AssignVariables(SqlCommand cmd, Order newOrder)
-    {
-        // (@totalPrice, @FK_customerID, @FK_departureID, @seatsReserved)
-        cmd.Parameters.AddWithValue("@totalPrice", newOrder.TotalPrice);
-        cmd.Parameters.AddWithValue("@FK_customerID", newOrder.CustomerID);
-        cmd.Parameters.AddWithValue("@FK_departureID", newOrder.DepartureID);
-        cmd.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
-
-        return cmd;
-    }
-
-    public int DeleteOrderById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public Order? GetOrderById(int id)
     {
         Order placeHolderOrder = null;
         try
         {
-            //TODO: Fix failure 404 error
             var command = new SqlCommand(_getOrderById, _sqlConnection);
             _sqlConnection.Open();
             command.Parameters.AddWithValue("@id", id);
@@ -124,7 +107,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
         }
         catch (Exception ex)
         {
-            //TODO: Handle Exception
+            throw new Exception($"Failed to return a Order based on the ID" + ex.Message, ex);
         }
         finally
         {
@@ -133,6 +116,9 @@ public class OrderDAO : BaseDAO, IOrderDAO
         return placeHolderOrder;
     }
 
+    #region HelperMethods
+    // Helper method to reduce bloat of other methods
+    // takes a reader to then create a Departure from the DataReader
     private Order CreateOrderPlaceHolder(SqlDataReader reader)
     {
         Order placeholderOrder = new Order();
@@ -144,14 +130,34 @@ public class OrderDAO : BaseDAO, IOrderDAO
         return placeholderOrder;
     }
 
-    public int UpdateOrderById(int id)
+    // Helper method to reduce bloat of other methods
+    // Takes a SqlCommand and a Order and assigns the values for the Order to then be saved
+    private SqlCommand AssignVariables(SqlCommand cmd, Order newOrder)
     {
-        throw new NotImplementedException();
+        cmd.Parameters.AddWithValue("@totalPrice", newOrder.TotalPrice);
+        cmd.Parameters.AddWithValue("@FK_customerID", newOrder.CustomerID);
+        cmd.Parameters.AddWithValue("@FK_departureID", newOrder.DepartureID);
+        cmd.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
+        return cmd;
     }
+
+    // Helper method to reduce bloat of other methods
+    // takes a reader to then create a Departure from the DataReader
     public Departure CreateDepartureRowversion(SqlDataReader reader)
     {
         Departure placeholderDeparture = new Departure();
         placeholderDeparture.RowVersion = (byte[])reader["RowVersion"];
         return placeholderDeparture;
+    } 
+    #endregion
+
+    public int UpdateOrderById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int DeleteOrderById(int id)
+    {
+        throw new NotImplementedException();
     }
 }

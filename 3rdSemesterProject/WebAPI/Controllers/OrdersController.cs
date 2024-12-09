@@ -1,11 +1,9 @@
 ﻿using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 using WebAPI.DAL;
-using WebAPI.DAL.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -97,8 +95,6 @@ public class OrdersController : ControllerBase
         bool result = false;
         if (newOrder.SeatsReserved > 0 && newOrder.TotalPrice > 0
             && newOrder.DepartureID > 0 && newOrder.CustomerID > 0)
-            //TODO: Figure out if need be we can change the line under this
-            //&& newOrder.SeatsReserved <= DeparturesController.FindDepartureById(newOrder.DepartureID).AvailableSeats
         {
             result = true;
         }

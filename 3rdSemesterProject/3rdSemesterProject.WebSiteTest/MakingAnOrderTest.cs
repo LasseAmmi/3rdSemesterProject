@@ -1,4 +1,4 @@
-using _3rdSemesterProject.WebSite.APIStub;
+using _3rdSemesterProject.WebSite.APIClient;
 using _3rdSemesterProject.WebSite.Controllers;
 using _3rdSemesterProject.WebSite.Models.DTO.CombinedDTO;
 
