@@ -1,26 +1,39 @@
-﻿using WebAPI.DAL.DTO;
+﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.DAL.DTO;
 
 namespace WebAPI.DAL;
 
 
 public class OrderDAOStub : IOrderDAO
 {
-    public List<OrderDTO> _orders = new List<OrderDTO>() {
-    new OrderDTO() {OrderID = 1, CustomerID = 1, DepartureID = 1, SeatsReserved = 5, TotalPrice = 20}
+    public List<Order> _orders = new List<Order>() {
+    new Order() {OrderID = 1, CustomerID = 1, DepartureID = 1, SeatsReserved = 5, TotalPrice = 20}
     };
     public OrderDAOStub(string baseURI)
     {
                 
     }
-    public int CreateOrder(OrderDTO newOrder)
+
+    public int CreateOrder(Order newOrder)
     {
         _orders.Add(newOrder);
         return newOrder.OrderID;
     }
 
-    public OrderDTO GetOrderByID(int orderID)
+    public int UpdateOrderById(int id)
     {
+        throw new NotImplementedException();
+    }
+    public int DeleteOrderById(int id)
+    {
+        throw new NotImplementedException();
+    }
 
-        return _orders.FirstOrDefault(order => order.OrderID == orderID);
+    public Order GetOrderById(int id)
+    {
+        return _orders[id];
     }
 }

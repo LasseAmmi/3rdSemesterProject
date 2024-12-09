@@ -1,4 +1,5 @@
-﻿using _3rdSemesterProject.DataAccess.Models__Lasse_;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 namespace _3rdSemesterProject.DataAccess;
 
 public interface IOrderDAO

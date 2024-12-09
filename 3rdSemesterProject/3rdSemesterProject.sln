@@ -11,21 +11,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WinForm", "3rdSemesterProject.WinForm\3rdSemesterProject.WinForm.csproj", "{82182983-1834-45AB-B9C9-A5AA6547FFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3rdSemesterProject.WinFormTest", "3rdSemesterProject.WinFormTest\3rdSemesterProject.WinFormTest.csproj", "{A63F6D13-788F-49EF-9071-C6699EC96CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WinFormTest", "3rdSemesterProject.WinFormTest\3rdSemesterProject.WinFormTest.csproj", "{A63F6D13-788F-49EF-9071-C6699EC96CD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForm", "WinForm", "{76B40751-F175-4370-BE3B-39C1AA953675}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{3CE44877-C3F6-4D19-90FA-7F6DE1AF5F59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3rdSemesterProject.WebAPITest", "3rdSemesterProject.WebAPITest\3rdSemesterProject.WebAPITest.csproj", "{23C4210B-EA21-4BE4-A031-AA17A9E0FA61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WebAPITest", "3rdSemesterProject.WebAPITest\3rdSemesterProject.WebAPITest.csproj", "{23C4210B-EA21-4BE4-A031-AA17A9E0FA61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSite", "WebSite", "{EAA4C424-1700-46A4-8B98-105BE30B5F8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3rdSemesterProject.WebSiteTest", "3rdSemesterProject.WebSiteTest\3rdSemesterProject.WebSiteTest.csproj", "{7AE36510-D18F-4686-9EE0-8CD5863EFE25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WebSiteTest", "3rdSemesterProject.WebSiteTest\3rdSemesterProject.WebSiteTest.csproj", "{7AE36510-D18F-4686-9EE0-8CD5863EFE25}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAcess", "DataAcess", "{B111F633-F7D6-4A2B-9A19-F1E415F8AB30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3rdSemesterProject.DataAccessTest", "3rdSemesterProject.DataAccessTest\3rdSemesterProject.DataAccessTest.csproj", "{F6B9BACF-EDEF-4AFC-A93E-3DD05C9F3795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.DataAccessTest", "3rdSemesterProject.DataAccessTest\3rdSemesterProject.DataAccessTest.csproj", "{F6B9BACF-EDEF-4AFC-A93E-3DD05C9F3795}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

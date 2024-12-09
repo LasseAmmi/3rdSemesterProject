@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using _3rdSemesterProject.DataAccess;
+using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
+using _3rdSemesterProject.WebAPI.Controllers;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 using WebAPI.DAL;
 using WebAPI.DAL.DTO;
@@ -7,7 +11,7 @@ using WebAPI.DAL.DTO;
 
 namespace WebAPI.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [ApiController]
 public class OrdersController : ControllerBase
 {
@@ -26,16 +30,17 @@ public class OrdersController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<string>> Get()
     {
+        //TODO: Missing implemntaion
         return new string[] { "value1", "value2" };
     }
 
     // GET api/<OrdersController>/5
     [HttpGet("{id}")]
-    public ActionResult<OrderDTO> GetOrderByID(int id)
+    public ActionResult<Order> GetOrderByID(int id)
     {
         try
         {
-            OrderDTO order = _orderDAO.GetOrderByID(id);
+            Order order = _orderDAO.GetOrderById(id);
             if (order != null)
             {
                 return Ok(order);
@@ -52,15 +57,17 @@ public class OrdersController : ControllerBase
     }
 
     // POST api/<OrdersController>
-    [HttpPost]
-    public ActionResult<int> CreateOrder(OrderDTO newOrder)
+    [HttpPost("CreateOrder")]
+    public ActionResult<int> CreateOrder([FromBody] Order newOrder)
     {
         try
         {
+            //TODO : Change 2 lines under this after implementation of Customers log in and price calculations
+            newOrder.TotalPrice = 69;
+            newOrder.CustomerID = 1;
             if (OrderDTOValid(newOrder))
             {
-                _orderDAO.CreateOrder(newOrder);
-                return Created($"{baseURI}/{newOrder.OrderID}", newOrder);
+                return Ok(_orderDAO.CreateOrder(newOrder));
             }
             else
             {
@@ -72,8 +79,6 @@ public class OrdersController : ControllerBase
             throw new Exception($"API Could not create order." + ex.Message, ex);
         }
     }
-
-    
 
     // PUT api/<OrdersController>/5
     [HttpPut("{id}")]
@@ -87,12 +92,12 @@ public class OrdersController : ControllerBase
     {
     }
 
-    private bool OrderDTOValid(OrderDTO newOrder)
+    private bool OrderDTOValid(Order newOrder)
     {
         bool result = false;
-        if (newOrder.SeatsReserved != null && newOrder.TotalPrice != null
-            && newOrder.DepartureID != null && newOrder.CustomerID != null
-            && newOrder.SeatsReserved > 0)
+        if (newOrder.SeatsReserved > 0 && newOrder.TotalPrice > 0
+            && newOrder.DepartureID > 0 && newOrder.CustomerID > 0)
+            //TODO: Figure out if need be we can change the line under this
             //&& newOrder.SeatsReserved <= DeparturesController.FindDepartureById(newOrder.DepartureID).AvailableSeats
         {
             result = true;

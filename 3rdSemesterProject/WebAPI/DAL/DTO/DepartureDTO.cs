@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace _3rdSemesterProject.WebSite.Models.DTO;
+namespace WebAPI.DAL.DTO;
 
 public class DepartureDTO
 {

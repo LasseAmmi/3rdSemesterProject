@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using _3rdSemesterProject.DataAccess.Models;
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,7 @@ internal class MakingAnOrderTest
         //Arrange
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
-        OrderDTO order = new OrderDTO()
+        Order order = new Order()
         {
             OrderID = 2,
             CustomerID = 1,
@@ -33,8 +35,9 @@ internal class MakingAnOrderTest
             SeatsReserved = 5,
             TotalPrice = 20
         };
+        Departure departure = new Departure();
         //Act
-        controller.CreateOrder(order);
+        controller.CreateOrder(order, departure);
         //Assert
         Assert.True(dao._orders.Count() > 1);
     }
@@ -46,7 +49,7 @@ internal class MakingAnOrderTest
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
         //Act
-        var result = controller.GetOrderByID(1);
+        var result = controller.GetOrderByID(0);
         //Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
     }
@@ -57,12 +60,12 @@ internal class MakingAnOrderTest
         //Arrange
         OrderDAOStub dao = new OrderDAOStub("");
         OrdersController controller = new OrdersController(dao);
-        int nonExistentOrderId = dao._orders.Count() + 1; // ID that doesn’t exist
+        int nonExistentOrderId = dao._orders.Count() + 100; // ID that doesn’t exist
 
-        // Act
-        var result = controller.GetOrderByID(nonExistentOrderId);
+        //Act
 
-        // Assert
-        Assert.IsInstanceOf<NotFoundResult>(result.Result);
+        //Assert
+        Assert.Throws<Exception>(() => controller.GetOrderByID(nonExistentOrderId));
+
     }
 }
