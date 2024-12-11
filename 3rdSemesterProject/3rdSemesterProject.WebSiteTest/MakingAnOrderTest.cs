@@ -6,19 +6,23 @@ namespace _3rdSemesterProject.WebSiteTest;
 
 public class Tests
 {
+    RestAPIClientStub client;
+    OrdersController controller;
+    OrderDepartureDTOCombined model;
+
     [SetUp]
     public void Setup()
     {
-
+        client = new RestAPIClientStub();
+        controller = new OrdersController(client);
+        model = new OrderDepartureDTOCombined();
     }
 
     [Test]
-    public void MakingAnOrder_OutOfUpperBounds()
+    public void MakingAnOrder_SeatsOutOfUpperBounds()
     {
         //Arrange
-        RestAPIClientStub client = new RestAPIClientStub();
-        OrdersController controller = new OrdersController(client);
-        OrderDepartureDTOCombined model = new OrderDepartureDTOCombined();
+        
         model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
         model.SeatsReserved = model.AvailableSeats + 1;
         //Act
@@ -28,7 +32,7 @@ public class Tests
     }
 
     [Test]
-    public void MakingAnOrder_OutOfLowerBounds()
+    public void MakingAnOrder_SeatsOutOfLowerBounds()
     {
         //Arrange
         RestAPIClientStub client = new RestAPIClientStub();
@@ -54,5 +58,10 @@ public class Tests
         controller.Create(model);
         //Assert
         Assert.IsTrue(client._orders.Count() > 0);
+    }
+    [TearDown]
+    public void cleanupController()
+    {
+        controller.Dispose();
     }
 }
