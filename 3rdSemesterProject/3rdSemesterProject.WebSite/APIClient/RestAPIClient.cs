@@ -1,4 +1,5 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 using RestSharp;
 
 namespace _3rdSemesterProject.WebSite.APIClient;
@@ -22,6 +23,7 @@ public class RestAPIClient : IRestClient
         }
         else
         {
+           
             throw new Exception("Could not retrieve departure by Route Id.");
         }
     }

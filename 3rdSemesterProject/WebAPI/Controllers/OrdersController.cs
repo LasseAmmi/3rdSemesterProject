@@ -50,7 +50,7 @@ public class OrdersController : ControllerBase
         }
         catch (Exception ex)
         {
-            throw new Exception($"API Could not access order."+ ex.Message, ex);
+            return BadRequest();
         }
     }
 
@@ -72,9 +72,9 @@ public class OrdersController : ControllerBase
                 return BadRequest("The order data provided is invalid.");
             }
         }
-        catch (Exception ex)
+        catch
         {
-            throw new Exception($"API Could not create order." + ex.Message, ex);
+            return StatusCode(500);
         }
     }
 

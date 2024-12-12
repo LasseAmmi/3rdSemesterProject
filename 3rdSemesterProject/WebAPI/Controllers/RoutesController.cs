@@ -23,7 +23,23 @@ public class RoutesController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<DataAccess.Models.Route>> Get()
     {
-        return Ok(_routeDAO.GetThreeRoutes());
+        IEnumerable<DataAccess.Models.Route> threeRoutes;
+        try
+        {
+            threeRoutes = _routeDAO.GetThreeRoutes();
+            if (threeRoutes != null)
+            {
+                return Ok(threeRoutes);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
     }
 
     // GET api/<RoutesController>/5
@@ -35,13 +51,13 @@ public class RoutesController : ControllerBase
 
     // POST api/<RoutesController>
     [HttpPost]
-    public void Post([FromBody]string value)
+    public void Post([FromBody] string value)
     {
     }
 
     // PUT api/<RoutesController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody]string value)
+    public void Put(int id, [FromBody] string value)
     {
     }
 

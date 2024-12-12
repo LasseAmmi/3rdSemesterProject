@@ -21,15 +21,49 @@ public class DeparturesController : ControllerBase
     [HttpGet("departuresByRouteId")]
     public ActionResult<IEnumerable<Departure>> GetDeparturesByRouteId(int id)
     {
-        return Ok(_departuresDAO.GetDeparturesByRouteId(id));
+        IEnumerable<Departure> departuresByRouteId;
+        try
+        {
+            departuresByRouteId = _departuresDAO.GetDeparturesByRouteId(id);
+            if (departuresByRouteId != null)
+            {
+                return Ok(departuresByRouteId);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
     }
 
     // GET api/<DeparturesController>/5
     [HttpGet("departureById")]
     public ActionResult<Departure> GetDepartureById(int id)
     {
-        return Ok(_departuresDAO.GetDepartureById(id));
+        Departure departureById;
+        try
+        {
+            departureById = _departuresDAO.GetDepartureById(id);
+            if (departureById != null)
+            {
+                return Ok(departureById);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
     }
+
 
     // POST api/<DeparturesController>
     [HttpPost]

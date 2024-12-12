@@ -24,6 +24,8 @@ public class OrderDAO : BaseDAO, IOrderDAO
     //Pessimistic && optimistic concurreny control
     public int CreateOrder(Order newOrder)
     {
+        // Sleep is used in order to run two or more operations concurrently.
+        Thread.Sleep(5000);
         int id = 0;
         try
         {
