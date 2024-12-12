@@ -1,3 +1,4 @@
+using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models;
 namespace _3rdSemesterProject.DataAccessTest;
@@ -13,15 +14,14 @@ public class Tests
     {
         testOrder = new Order();
         testDeparture = new Departure();
-        testOrderDAO = new OrderDAO("DefaultConnection"); 
+        testOrderDAO = new OrderDAO("Server=group3db.clwaww2kakx8.eu-north-1.rds.amazonaws.com,1433;Database=CaptainJacksBoatTours;User Id=buurgaard;Password=group3secretpassword;Encrypt=True;TrustServerCertificate=True;"); 
     }
 
     [SetUp]
     public void ArrangeTests() 
     {
-        testOrder.Departure = testDeparture;
-        testDeparture.DepartureID = 1;
         testOrder.CustomerID = 1;
+        testOrder.DepartureID = 1;
         testOrder.TotalPrice = -100;
         testOrder.SeatsReserved = -100;
     }
@@ -32,7 +32,7 @@ public class Tests
         //Arrange
         
         //Act
-        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder);
+        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder, testDeparture);
 
         //Assert
         Assert.IsTrue(testOrder.OrderID > 0);
@@ -48,20 +48,20 @@ public class Tests
         
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
     }
     [Test]
 
     public void MakingAnOrder_InvalidDepartureID()
     {
         //Arrange
-        testOrder.Departure.DepartureID = -1;
+        testOrder.DepartureID = -1;
 
         //Act
        
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
     }
 
 

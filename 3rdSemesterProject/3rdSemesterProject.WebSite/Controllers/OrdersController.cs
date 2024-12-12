@@ -64,7 +64,7 @@ public class OrdersController : Controller
             // Check if the seats reserved is acceptable
             if (model.AvailableSeats < model.SeatsReserved)
             {
-                ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure");
+                ModelState.AddModelError("SeatsReserved", "Error you can not exceed the number available on the departure"); // TODO: Perhaps change this
             }
             else if (model.SeatsReserved < 1)
             {
@@ -77,6 +77,12 @@ public class OrdersController : Controller
                 _restClient.CreateOrder(ConvertToOrderDTO(model));
                 TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
                 return Redirect("/home/index");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.AvailableSeats = _restClient.GetDepartureById(model.DepartureID).AvailableSeats;
+                return View(model);
             }
             return View(model);
         }

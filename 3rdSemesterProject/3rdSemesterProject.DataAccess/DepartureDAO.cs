@@ -62,29 +62,9 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         return placeholderDeparture;
     }
     
-    public IEnumerable<Departure>? GetDeparturesByRouteId(int id)
+    public IEnumerable<Departure> GetDeparturesByRouteId(int id)
     {
-        List<Departure> departures = new List<Departure>();
-        try
-        {
-            _sqlConnection.Open();
-            var command = new SqlCommand(_getDepartureByRouteId, _sqlConnection);
-            command.Parameters.AddWithValue("@id", id);
-            SqlDataReader sqlDataReader = command.ExecuteReader();
-            while (sqlDataReader.Read())
-            {
-                departures.Add(CreateDeparturePlaceHolder(sqlDataReader));
-            }
-            return departures;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Failed to return a Departure on the given Route ID" + ex.Message, ex);
-        }
-        finally
-        {
-            _sqlConnection.Close();
-        }
-        return departures;
+        using var connection = CreateConnection();
+        return connection.Query<Departure>(_getDepartureByRouteId, new { id = id }).ToList();
     }
 }
