@@ -1,4 +1,3 @@
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models;
 namespace _3rdSemesterProject.DataAccessTest;
@@ -21,7 +20,7 @@ public class Tests
     public void ArrangeTests() 
     {
         testOrder.CustomerID = 1;
-        testOrder.DepartureID = 1;
+        testOrder.Departure = testDeparture;
         testOrder.TotalPrice = -100;
         testOrder.SeatsReserved = -100;
     }
@@ -32,7 +31,7 @@ public class Tests
         //Arrange
         
         //Act
-        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder, testDeparture);
+        testOrder.OrderID = testOrderDAO.CreateOrder(testOrder);
 
         //Assert
         Assert.IsTrue(testOrder.OrderID > 0);
@@ -48,7 +47,7 @@ public class Tests
         
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
     }
     [Test]
 
@@ -61,7 +60,7 @@ public class Tests
        
 
         //Assert
-        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder, testDeparture));
+        Assert.Throws<Exception>(() => testOrderDAO.CreateOrder(testOrder));
     }
 
 

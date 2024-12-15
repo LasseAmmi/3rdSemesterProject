@@ -1,5 +1,4 @@
 ﻿using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Controllers;
 using WebAPI.DAL;
-using WebAPI.DAL.DTO;
 
 namespace _3rdSemesterProject.WebAPITest;
 
@@ -37,7 +35,7 @@ internal class MakingAnOrderTest
         };
         Departure departure = new Departure();
         //Act
-        controller.CreateOrder(order, departure);
+        controller.CreateOrder(order);
         //Assert
         Assert.True(dao._orders.Count() > 1);
     }
