@@ -1,5 +1,6 @@
 ﻿using _3rdSemesterProject.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,41 +14,92 @@ namespace _3rdSemesterProject.WebAPITest;
 
 internal class MakingAnOrderTest
 {
+    OrderDAOStub DAO;
+    OrdersController ordersController;
+    Departure testDeparture;
+    Order testOrder;
+
     [SetUp]
     public void Setup()
     {
-
+        DAO = new OrderDAOStub("");
+        ordersController = new OrdersController(DAO);
+        testDeparture = new Departure()
+        {
+            DepartureID = 1
+        };
+        testOrder = new Order()
+        {
+            Departure = testDeparture,
+            OrderID = 2,
+            CustomerID = 1,
+            SeatsReserved = 5,
+            TotalPrice = 20
+        };
     }
 
     [Test]
     public void CreateOrder_HappyDays()
     {
         //Arrange
-        OrderDAOStub dao = new OrderDAOStub("");
-        OrdersController controller = new OrdersController(dao);
-        Order order = new Order()
-        {
-            OrderID = 2,
-            CustomerID = 1,
-            DepartureID = 1,
-            SeatsReserved = 5,
-            TotalPrice = 20
-        };
-        Departure departure = new Departure();
+        //Handled in Setup
+
         //Act
         controller.CreateOrder(order);
         //Assert
-        Assert.True(dao._orders.Count() > 1);
+        Assert.True(DAO._orders.Count() > 1);
     }
 
     [Test]
-    public void GetOrderById_Test()
+    public void CreateOrder_NegativePrice()
     {
         //Arrange
-        OrderDAOStub dao = new OrderDAOStub("");
-        OrdersController controller = new OrdersController(dao);
+        testOrder.TotalPrice = -100;
         //Act
-        var result = controller.GetOrderByID(0);
+        
+        //Assert
+        Assert.IsNotInstanceOf<OkObjectResult>(ordersController.CreateOrder(testOrder));
+    }
+
+    [Test]
+    public void CreateOrder_InvalidCustomerID()
+    {
+        //Arrange
+        testOrder.CustomerID = -100;
+        //Act
+
+        //Assert
+        Assert.IsNotInstanceOf<OkObjectResult>(ordersController.CreateOrder(testOrder));
+    }
+
+    [Test]
+    public void CreateOrder_InvalidDeparureID()
+    {
+        //Arrange
+        testDeparture.DepartureID = -100;
+        //Act
+
+        //Assert
+        Assert.IsNotInstanceOf<OkObjectResult>(ordersController.CreateOrder(testOrder));
+    }
+    [Test]
+    public void CreateOrder_InvalidSeatsReserved()
+    {
+        //Arrange
+        testOrder.SeatsReserved = -100;
+        //Act
+
+        //Assert
+        Assert.IsNotInstanceOf<OkObjectResult>(ordersController.CreateOrder(testOrder));
+    }
+
+    [Test]
+    public void GetOrderById_Test_HappyDays()
+    {
+        //Arrange
+
+        //Act
+        var result = ordersController.GetOrderByID(0);
         //Assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
     }
@@ -56,14 +108,12 @@ internal class MakingAnOrderTest
     public void GetOrderById_OutOfBounds_Test()
     {
         //Arrange
-        OrderDAOStub dao = new OrderDAOStub("");
-        OrdersController controller = new OrdersController(dao);
-        int nonExistentOrderId = dao._orders.Count() + 100; // ID that doesn’t exist
+        int nonExistentOrderId = DAO._orders.Count() + 100; // ID that doesn’t exist
 
         //Act
 
         //Assert
-        Assert.Throws<Exception>(() => controller.GetOrderByID(nonExistentOrderId));
+        Assert.Throws<Exception>(() => ordersController.GetOrderByID(nonExistentOrderId));
 
     }
 }

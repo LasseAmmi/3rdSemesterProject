@@ -34,7 +34,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
             {
                 // Creates a DataReader to read the colum RowVersion
                 var commandGetDepartureVersion = new SqlCommand(_getDepartureVersionByDepartureId, _sqlConnection);
-                commandGetDepartureVersion.Parameters.AddWithValue("@id", newOrder.DepartureID);
+                commandGetDepartureVersion.Parameters.AddWithValue("@id", newOrder.Departure.DepartureID);
                 SqlDataReader reader = commandGetDepartureVersion.ExecuteReader();
                 if (reader.Read())
                 {
@@ -52,7 +52,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
                             var commandDepartureUpdate = new SqlCommand(_updateDepartureSeatsSubtracted, _sqlConnection, transaction);
                             AssignVariables(commandOrder, newOrder);
                             commandDepartureUpdate.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
-                            commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.DepartureID);
+                            commandDepartureUpdate.Parameters.AddWithValue("@departureID", newOrder.Departure.DepartureID);
                             id = (int)commandOrder.ExecuteScalar();
                             commandDepartureUpdate.ExecuteNonQuery();
                             transaction.Commit();
@@ -124,10 +124,12 @@ public class OrderDAO : BaseDAO, IOrderDAO
     private Order CreateOrderPlaceHolder(SqlDataReader reader)
     {
         Order placeholderOrder = new Order();
+        Departure placeholderDeparture = new Departure();
+        placeholderOrder.Departure = placeholderDeparture;
         placeholderOrder.OrderID = ((int)reader["PK_orderID"]);
         placeholderOrder.TotalPrice = ((decimal)reader["totalPrice"]);
         placeholderOrder.CustomerID = ((int)reader["FK_customerID"]);
-        placeholderOrder.DepartureID = ((int)reader["FK_departureID"]);
+        placeholderOrder.Departure.DepartureID = ((int)reader["FK_departureID"]);
         placeholderOrder.SeatsReserved = ((int)reader["seatsReserved"]);
         return placeholderOrder;
     }
@@ -138,7 +140,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
     {
         cmd.Parameters.AddWithValue("@totalPrice", newOrder.TotalPrice);
         cmd.Parameters.AddWithValue("@FK_customerID", newOrder.CustomerID);
-        cmd.Parameters.AddWithValue("@FK_departureID", newOrder.DepartureID);
+        cmd.Parameters.AddWithValue("@FK_departureID", newOrder.Departure.DepartureID);
         cmd.Parameters.AddWithValue("@seatsReserved", newOrder.SeatsReserved);
         return cmd;
     }

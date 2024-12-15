@@ -13,12 +13,14 @@ public class Tests
     {
         testOrder = new Order();
         testDeparture = new Departure();
-        testOrderDAO = new OrderDAO("Server=group3db.clwaww2kakx8.eu-north-1.rds.amazonaws.com,1433;Database=CaptainJacksBoatTours;User Id=buurgaard;Password=group3secretpassword;Encrypt=True;TrustServerCertificate=True;"); 
+        testOrderDAO = new OrderDAO("DefaultConnection"); 
     }
 
     [SetUp]
     public void ArrangeTests() 
     {
+        testOrder.Departure = testDeparture;
+        testDeparture.DepartureID = 1;
         testOrder.CustomerID = 1;
         testOrder.Departure = testDeparture;
         testOrder.TotalPrice = -100;
@@ -54,7 +56,7 @@ public class Tests
     public void MakingAnOrder_InvalidDepartureID()
     {
         //Arrange
-        testOrder.DepartureID = -1;
+        testOrder.Departure.DepartureID = -1;
 
         //Act
        

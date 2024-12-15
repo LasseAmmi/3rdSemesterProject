@@ -60,9 +60,9 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            //TODO : Change 2 lines under this after implementation of Customers log in and Payment methods
-            newOrder.TotalPrice = 69;
-            newOrder.CustomerID = 1;
+            //Change 2 lines under this after implementation of Customers log in and Payment methods
+            newOrder.TotalPrice += 1;
+            newOrder.CustomerID += 1;
             if (OrderDTOValid(newOrder))
             {
                 return Ok(_orderDAO.CreateOrder(newOrder));
@@ -94,7 +94,7 @@ public class OrdersController : ControllerBase
     {
         bool result = false;
         if (newOrder.SeatsReserved > 0 && newOrder.TotalPrice > 0
-            && newOrder.DepartureID > 0 && newOrder.CustomerID > 0)
+            && newOrder.Departure.DepartureID > 0 && newOrder.CustomerID > 0)
         {
             result = true;
         }

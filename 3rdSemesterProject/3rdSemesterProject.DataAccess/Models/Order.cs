@@ -12,7 +12,6 @@ namespace _3rdSemesterProject.DataAccess.Models;
 public class Order
 {
     public int CustomerID { get; set; }
-    public int DepartureID { get; set; }
     public int SeatsReserved { get; set; }
     public decimal TotalPrice { get; set; }
     public int OrderID { get; set; }
