@@ -1,11 +1,9 @@
 ﻿using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using _3rdSemesterProject.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Principal;
 using WebAPI.DAL;
-using WebAPI.DAL.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,7 +50,7 @@ public class OrdersController : ControllerBase
         }
         catch (Exception ex)
         {
-            throw new Exception($"API Could not access order."+ ex.Message, ex);
+            return BadRequest();
         }
     }
 
@@ -62,9 +60,9 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            //TODO : Change 2 lines under this after implementation of Customers log in and price calculations
-            newOrder.TotalPrice = 69;
-            newOrder.CustomerID = 1;
+            //Change 2 lines under this after implementation of Customers log in and Payment methods
+            newOrder.TotalPrice += 1;
+            newOrder.CustomerID += 1;
             if (OrderDTOValid(newOrder))
             {
                 return Ok(_orderDAO.CreateOrder(newOrder));
@@ -74,9 +72,9 @@ public class OrdersController : ControllerBase
                 return BadRequest("The order data provided is invalid.");
             }
         }
-        catch (Exception ex)
+        catch
         {
-            throw new Exception($"API Could not create order." + ex.Message, ex);
+            return StatusCode(500);
         }
     }
 
@@ -96,9 +94,7 @@ public class OrdersController : ControllerBase
     {
         bool result = false;
         if (newOrder.SeatsReserved > 0 && newOrder.TotalPrice > 0
-            && newOrder.DepartureID > 0 && newOrder.CustomerID > 0)
-            //TODO: Figure out if need be we can change the line under this
-            //&& newOrder.SeatsReserved <= DeparturesController.FindDepartureById(newOrder.DepartureID).AvailableSeats
+            && newOrder.Departure.DepartureID > 0 && newOrder.CustomerID > 0)
         {
             result = true;
         }

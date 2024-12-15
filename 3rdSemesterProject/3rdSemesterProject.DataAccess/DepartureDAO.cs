@@ -1,5 +1,4 @@
 ﻿using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
@@ -12,7 +11,7 @@ namespace _3rdSemesterProject.DataAccess;
 
 public class DepartureDAO : BaseDAO, IDepartureDAO
 {
-    #region skibidi
+    #region Constructor and SQL queries
     private readonly string _getDepartureById = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time, RowVersion FROM [Departure] WHERE PK_departureID = @id";
     private readonly string _getDepartureByRouteId = $"SELECT PK_departureID, FK_routeID, FK_boatID, price, departureName, description, availableSeats, time, RowVersion FROM [Departure] WHERE FK_routeID = @id";
 
@@ -38,7 +37,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         }
         catch (Exception ex)
         {
-
+            throw new Exception($"Failed to return a Departure on the given ID" + ex.Message, ex);
         }
         finally
         {
@@ -46,12 +45,14 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         }
         return placeHolderDeparture;
     }
+    // Helper method to reduce bloat of other methods
+    // takes a reader to then create a Departure from the DataReader
     public static Departure CreateDeparturePlaceHolder(SqlDataReader reader)
     {
         Departure placeholderDeparture = new Departure();
-        placeholderDeparture.PK_departureID = ((int)reader["PK_departureID"]);
-        placeholderDeparture.FK_routeID = ((int)reader["FK_routeID"]);
-        placeholderDeparture.FK_boatID = ((int)reader["FK_boatID"]);
+        placeholderDeparture.DepartureID = ((int)reader["PK_departureID"]);
+        placeholderDeparture.RouteID = ((int)reader["FK_routeID"]);
+        placeholderDeparture.BoatID = ((int)reader["FK_boatID"]);
         placeholderDeparture.Price = ((decimal)reader["price"]);
         placeholderDeparture.DepartureName = ((string)reader["departureName"]);
         placeholderDeparture.Description = ((string)reader["description"]);
@@ -61,10 +62,29 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         return placeholderDeparture;
     }
     
-    public IEnumerable<Departure> GetDeparturesByRouteId(int id)
+    public IEnumerable<Departure>? GetDeparturesByRouteId(int id)
     {
-        using var connection = CreateConnection();
-
-        return connection.Query<Departure>(_getDepartureByRouteId, new { id = id }).ToList();
+        List<Departure> departures = new List<Departure>();
+        try
+        {
+            _sqlConnection.Open();
+            var command = new SqlCommand(_getDepartureByRouteId, _sqlConnection);
+            command.Parameters.AddWithValue("@id", id);
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+            while (sqlDataReader.Read())
+            {
+                departures.Add(CreateDeparturePlaceHolder(sqlDataReader));
+            }
+            return departures;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Failed to return a Departure on the given Route ID" + ex.Message, ex);
+        }
+        finally
+        {
+            _sqlConnection.Close();
+        }
+        return departures;
     }
 }
