@@ -26,7 +26,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
     {
         // Sleep is used in order to run two or more operations concurrently.
         Thread.Sleep(5000);
-        int id = 0;
+        int id;
         try
         {
             _sqlConnection.Open();
@@ -95,7 +95,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     public Order? GetOrderById(int id)
     {
-        Order placeHolderOrder = null;
+        Order? placeHolderOrder = null;
         try
         {
             var command = new SqlCommand(_getOrderById, _sqlConnection);
@@ -121,7 +121,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
     #region HelperMethods
     // Helper method to reduce bloat of other methods
     // takes a reader to then create a Departure from the DataReader
-    private Order CreateOrderPlaceHolder(SqlDataReader reader)
+    private static Order CreateOrderPlaceHolder(SqlDataReader reader)
     {
         Order placeholderOrder = new Order();
         Departure placeholderDeparture = new Departure();
@@ -136,7 +136,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     // Helper method to reduce bloat of other methods
     // Takes a SqlCommand and a Order and assigns the values for the Order to then be saved
-    private SqlCommand AssignVariables(SqlCommand cmd, Order newOrder)
+    private static SqlCommand AssignVariables(SqlCommand cmd, Order newOrder)
     {
         cmd.Parameters.AddWithValue("@totalPrice", newOrder.TotalPrice);
         cmd.Parameters.AddWithValue("@FK_customerID", newOrder.CustomerID);
@@ -147,7 +147,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
 
     // Helper method to reduce bloat of other methods
     // takes a reader to then create a Departure from the DataReader
-    public Departure CreateDepartureRowversion(SqlDataReader reader)
+    public static Departure CreateDepartureRowversion(SqlDataReader reader)
     {
         Departure placeholderDeparture = new Departure();
         placeholderDeparture.RowVersion = (byte[])reader["RowVersion"];

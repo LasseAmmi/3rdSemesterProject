@@ -3,7 +3,7 @@ namespace _3rdSemesterProject.DataAccess;
 
 public interface IOrderDAO
 {
-    Order GetOrderById(int id);
+    Order? GetOrderById(int id);
 
     int CreateOrder(Order newOrder);
 

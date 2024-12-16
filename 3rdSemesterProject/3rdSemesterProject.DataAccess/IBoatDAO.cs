@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace _3rdSemesterProject.DataAccess;
 
-public interface IRouteDAO
+public interface IBoatDAO
 {
-    Route? GetRouteById (int id);
-    IEnumerable<Route> GetThreeRoutes();
 
-    IEnumerable<Route> GetAllRoutes();
+    IEnumerable<Boat> GetBoats();
 }
