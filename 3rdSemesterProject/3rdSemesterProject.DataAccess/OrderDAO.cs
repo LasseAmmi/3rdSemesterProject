@@ -25,7 +25,7 @@ public class OrderDAO : BaseDAO, IOrderDAO
     public int CreateOrder(Order newOrder)
     {
         // Sleep is used in order to run two or more operations concurrently.
-        Thread.Sleep(5000);
+        //Thread.Sleep(5000);
         int id;
         try
         {

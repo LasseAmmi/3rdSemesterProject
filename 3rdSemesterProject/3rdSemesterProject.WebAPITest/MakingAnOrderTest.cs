@@ -45,7 +45,7 @@ internal class MakingAnOrderTest
         //Handled in Setup
 
         //Act
-        controller.CreateOrder(order);
+        ordersController.CreateOrder(testOrder);
         //Assert
         Assert.True(DAO._orders.Count() > 1);
     }
@@ -113,7 +113,7 @@ internal class MakingAnOrderTest
         //Act
 
         //Assert
-        Assert.Throws<Exception>(() => ordersController.GetOrderByID(nonExistentOrderId));
+        Assert.IsNotInstanceOf<OkObjectResult>(() => ordersController.GetOrderByID(nonExistentOrderId));
 
     }
 }

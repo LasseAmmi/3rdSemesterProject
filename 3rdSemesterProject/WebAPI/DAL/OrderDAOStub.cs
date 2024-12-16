@@ -36,6 +36,6 @@ public class OrderDAOStub : IOrderDAO
 
     public Order GetOrderById(int id)
     {
-        return _orders[id];
+        return _orders.ElementAt(id);
     }
 }

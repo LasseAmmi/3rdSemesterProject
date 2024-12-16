@@ -60,6 +60,16 @@ public class OrdersController : Controller
         {
             // Lets the View if failed still keep the necesary information from the departure
             DepartureDTO departure = _restClient.GetDepartureById(model.DepartureID);
+            if (departure == null)
+            {
+                ModelState.AddModelError("DepartureID", "Departure not found.");
+                return View(model);
+            }
+            if (departure == null)
+            {
+                ModelState.AddModelError("DepartureID", "Departure not found.");
+                return View(model);
+            }
             model.AvailableSeats = departure.AvailableSeats;
             // Check if the seats reserved is acceptable
             if (model.AvailableSeats < model.SeatsReserved)
@@ -75,7 +85,10 @@ public class OrdersController : Controller
             {
                 model.Departure = departure;
                 _restClient.CreateOrder(ConvertToOrderDTO(model));
-                TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
+                if (!_restClient.ClientIsStub())
+                {
+                    TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up
+                }
                 return Redirect("/home/index");
             }
             return View(model);
