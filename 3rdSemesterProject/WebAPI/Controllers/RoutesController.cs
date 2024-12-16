@@ -42,6 +42,29 @@ public class RoutesController : ControllerBase
         }
     }
 
+    //GET api/<GetAllRoutes>
+    [HttpGet("allRoutes")]
+    public ActionResult<IEnumerable<DataAccess.Models.Route>> GetRoutes()
+    {
+        IEnumerable<DataAccess.Models.Route> routes;
+        try
+        {
+            routes = _routeDAO.GetAllRoutes();
+            if(routes != null)
+            {
+                return Ok(routes);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
+
     // GET api/<RoutesController>/5
     [HttpGet("{id}")]
     public string Get(int id)

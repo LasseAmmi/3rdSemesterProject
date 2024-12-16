@@ -45,7 +45,7 @@ public class DeparturesController : ControllerBase
     [HttpGet("departureById")]
     public ActionResult<Departure> GetDepartureById(int id)
     {
-        Departure departureById;
+        Departure? departureById;
         try
         {
             departureById = _departuresDAO.GetDepartureById(id);
@@ -67,19 +67,23 @@ public class DeparturesController : ControllerBase
 
     // POST api/<DeparturesController>
     [HttpPost]
-    public void Post([FromBody] string value)
+    public void Post([FromBody] Departure value)
     {
+        _departuresDAO.CreateDeparture(value);
     }
 
     // PUT api/<DeparturesController>/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    public void Put(int id, [FromBody] Departure value)
     {
+        value.DepartureID = id;
+        _departuresDAO.UpdateDeparture(value);
     }
 
     // DELETE api/<DeparturesController>/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
+        _departuresDAO.DeleteDepartureByID(id);
     }
 }
