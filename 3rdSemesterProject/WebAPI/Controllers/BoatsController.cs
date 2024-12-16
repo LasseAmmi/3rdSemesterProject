@@ -24,7 +24,7 @@ public class BoatsController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Boat>> Get()
     {
-        IEnumerable<DataAccess.Models.Boat> boats;
+        IEnumerable<Boat> boats;
         try
         {
             boats = _boatDAO.GetBoats();

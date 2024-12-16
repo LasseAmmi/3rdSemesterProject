@@ -13,6 +13,7 @@ public static class DAOFactory
         if (typeof(T) == typeof(IOrderDAO)) return new OrderDAO(connectionstring) as T;
         if (typeof(T) == typeof(IDepartureDAO)) return new DepartureDAO(connectionstring) as T;
         if (typeof(T) == typeof(IRouteDAO)) return new RouteDAO(connectionstring) as T;
+        if(typeof(T) == typeof(IBoatDAO)) return new BoatDAO(connectionstring) as T;
         throw new ArgumentException($"Unknown type {typeof(T).FullName}");
     }
 }

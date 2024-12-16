@@ -1,23 +1,22 @@
 ﻿using _3rdSemesterProject.WinForm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using _3rdSemesterProject.WinForm.DataAccess;
 
 namespace _3rdSemesterProject.WinForm.Controllers
 {
     internal class RouteController
     {
-        public static List<Route> GetAllRoutes() //TODO: Implement API call that gets all Routes from DB
+        private static readonly string _APIURL = "https://localhost:7034/api/v1/";
+
+        private IRouteDAO _routeDAO;
+
+        public RouteController()
         {
-            List<Route> routes = new List<Route>();
+            _routeDAO = new RouteDAO(_APIURL);
+        }
 
-            routes.Add(new Route(90, "Route 1", "Sights"));
-            routes.Add(new Route(30, "Route 2", "Sights"));
-            routes.Add(new Route(45, "Route 3", "Sights"));
-
-            return routes;
+        public IEnumerable<Route> GetAllRoutes()
+        {
+            return _routeDAO.GetRoutes();
         }
 
     }

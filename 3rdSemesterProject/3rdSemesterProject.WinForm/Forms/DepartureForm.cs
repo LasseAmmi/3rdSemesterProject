@@ -29,9 +29,9 @@ public partial class DepartureForm : Form
 
     private void SetDataSources()
     {
-        lstDepartures.DataSource = DepartureController.GetAllDepartures();
-        cmbBoat.DataSource = DepartureController.GetAllBoats();
-        cmbRoute.DataSource = DepartureController.GetAllRoutes();
+        lstDepartures.DataSource = _depCtrl.GetAllDepartures();
+        cmbBoat.DataSource = _depCtrl.GetAllBoats();
+        cmbRoute.DataSource = _depCtrl.GetAllRoutes();
 
     }
 
@@ -40,12 +40,11 @@ public partial class DepartureForm : Form
         _depCtrl.Departure = lstDepartures.SelectedItem as Departure;
         if (_depCtrl.Departure != null)
         {
-            dtpDepTime.Value = _depCtrl.Departure.DepartureTime;
+            dtpDepTime.Value = _depCtrl.Departure.Time;
             txtPrice.Text = _depCtrl.Departure.Price.ToString();
-            chkAllInclusive.Checked = _depCtrl.Departure.AllInclusive;
             txtAvailableSeats.Text = _depCtrl.Departure.AvailableSeats.ToString();
-            cmbBoat.SelectedItem = _depCtrl.Departure.DepartureBoat;
-            cmbRoute.SelectedItem = _depCtrl.Departure.DepartureRoute;
+            cmbBoat.SelectedItem = _depCtrl.Departure.BoatID;
+            cmbRoute.SelectedItem = _depCtrl.Departure.RouteID;
             txtDescription.Text = _depCtrl.Departure.Description;
         }
     }
@@ -63,14 +62,20 @@ public partial class DepartureForm : Form
         decimal temp;
         if(!Decimal.TryParse(txtPrice.Text, out temp))
         {
-            showPriceError();
+            ShowPriceError();
             return;
         }
-        updatedDep.DepartureTime = dtpDepTime.Value;
+        Boat? newBoat = cmbBoat.SelectedItem as Boat;
+        Route? newRoute = cmbRoute.SelectedItem as Route;
+        if (newBoat == null || newRoute == null)
+        {
+            ShowBoatOrRouteError();
+            return;
+        }
+        updatedDep.Time = dtpDepTime.Value;
         updatedDep.Price = temp;
-        updatedDep.AllInclusive = chkAllInclusive.Checked;
-        updatedDep.DepartureBoat = cmbBoat.SelectedItem as Boat;
-        updatedDep.DepartureRoute = cmbRoute.SelectedItem as Route;
+        updatedDep.BoatID = newBoat.BoatID;
+        updatedDep.RouteID = newRoute.RouteID;
         updatedDep.Description = txtDescription.Text;
         updatedDep.DepartureID = _depCtrl.Departure.DepartureID;
 
@@ -88,21 +93,32 @@ public partial class DepartureForm : Form
         decimal temp;
         if (!Decimal.TryParse(txtPrice.Text, out temp))
         {
-            showPriceError();
+            ShowPriceError();
             return;
         }
-        createDep.DepartureTime = dtpDepTime.Value;
+        Boat? newBoat = cmbBoat.SelectedItem as Boat;
+        Route? newRoute = cmbRoute.SelectedItem as Route;
+        if (newBoat == null || newRoute == null)
+        {
+            ShowBoatOrRouteError();
+            return;
+        }
+        createDep.Time = dtpDepTime.Value;
         createDep.Price = temp;
-        createDep.AllInclusive = chkAllInclusive.Checked;
-        createDep.DepartureBoat = cmbBoat.SelectedItem as Boat;
-        createDep.DepartureRoute = cmbRoute.SelectedItem as Route;
+        createDep.BoatID = newBoat.BoatID;
+        createDep.RouteID = newRoute.RouteID;
         createDep.Description = txtDescription.Text;
 
         //Call create method with createDep
     }
 
-    private void showPriceError()
+    private void ShowPriceError()
     {
         MessageBox.Show("Entered price is not a valid decimal number", "Price error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
+    private void ShowBoatOrRouteError()
+    {
+        MessageBox.Show("Can't update departure without valid boat and route", "Update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 }

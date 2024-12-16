@@ -3,22 +3,25 @@
 public class Route
 {
 
-    public int TimeMinutes { get; set; }
+    public int Duration { get; set; }
 
     public string Description { get; set; }
 
-    public string Name { get; set; }
+    public string Title { get; set; }
 
-    public Route(int timeInMinutes, string description, string name)
+    public int RouteID {  get; set; }
+
+    public Route(int RouteID, int Duration, string Description, string Title)
     {
-        TimeMinutes = timeInMinutes;
-        Description = description;
-        Name = name;
+        this.RouteID = RouteID;
+        this.Duration = Duration;
+        this.Description = Description;
+        this.Title = Title;
     }
 
     public override string ToString()
     {
-        return Name + " " + TimeMinutes.ToString();
+        return Title + " " + Duration.ToString();
     }
 
 }

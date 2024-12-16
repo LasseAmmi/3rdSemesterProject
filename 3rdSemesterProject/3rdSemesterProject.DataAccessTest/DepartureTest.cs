@@ -13,7 +13,7 @@ public class DepartureTests
     public void Setup()
     {
         testDep = new Departure();
-        testDepDAO = new DepartureDAO(@"Data Source=.\SQLEXPRESS; Initial Catalog = CaptainJack; Integrated Security = True; TrustServerCertificate = True;"); 
+        testDepDAO = new DepartureDAO("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;"); 
     }
 
     [SetUp]

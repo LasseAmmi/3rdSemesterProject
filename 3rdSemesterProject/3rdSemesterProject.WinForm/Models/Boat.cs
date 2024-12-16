@@ -4,19 +4,16 @@ public class Boat
 {
     public int MaxSeats { get; set; }
 
-    public string Description { get; set; }
+    public int BoatID { get; set; }
 
-    public int BoatId { get; set; }
-
-    public Boat(int capacity, string description, int id)
+    public Boat(int MaxSeats, int BoatID)
     {
-        MaxSeats = capacity;
-        Description = description;
-        BoatId = id;
+        this.MaxSeats = MaxSeats;
+        this.BoatID = BoatID;
     }
 
     public override string ToString()
     {
-        return "Boat: " + BoatId;
+        return "Boat: " + BoatID;
     }
 }

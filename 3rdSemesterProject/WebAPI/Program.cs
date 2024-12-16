@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IOrderDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IRouteDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IDepartureDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped((sc) => DAOFactory.CreateRepository<IBoatDAO>(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,11 +1,4 @@
 ﻿using _3rdSemesterProject.WinForm.Models;
-using Newtonsoft;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace _3rdSemesterProject.WinForm.DataAccess;
 
@@ -16,7 +9,7 @@ public class DepartureDAO : IDepartureDAO
 
     public DepartureDAO()
     {
-        client.BaseAddress = new Uri();
+        
     }
 
     public Task CreateDeparture(Departure departure)

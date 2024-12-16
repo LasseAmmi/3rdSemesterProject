@@ -1,24 +1,22 @@
 ﻿using _3rdSemesterProject.WinForm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using _3rdSemesterProject.WinForm.DataAccess;
 
 namespace _3rdSemesterProject.WinForm.Controllers
 {
     internal class BoatController
     {
+        private static readonly string _APIURL = "https://localhost:7034/api/v1/";
 
-        public static List<Boat> GetAllBoats()
+        private IBoatDAO _boatDAO;
+
+        public BoatController()
         {
-            List<Boat> boats = new List<Boat>();
+            _boatDAO = new BoatDAO(_APIURL);
+        }
 
-            boats.Add(new Boat(100, "Boat 1", 1));
-            boats.Add(new Boat(200, "Boat 2", 2));
-            boats.Add(new Boat(300, "Boat 3", 3));
-
-            return boats;
+        public IEnumerable<Boat> GetAllBoats()
+        {
+            return _boatDAO.GetBoats();
         }
     }
 }

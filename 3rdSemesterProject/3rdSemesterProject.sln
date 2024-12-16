@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.DataAccess", "3rdSemesterProject.DataAccess\3rdSemesterProject.DataAccess.csproj", "{E9FD73EB-BCEF-4965-9DE3-FC9138ADDD5D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WinForm", "3rdSemesterProject.WinForm\3rdSemesterProject.WinForm.csproj", "{82182983-1834-45AB-B9C9-A5AA6547FFCE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E3E51979-0EB0-44D0-868C-5A0138C49119} = {E3E51979-0EB0-44D0-868C-5A0138C49119}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3rdSemesterProject.WinFormTest", "3rdSemesterProject.WinFormTest\3rdSemesterProject.WinFormTest.csproj", "{A63F6D13-788F-49EF-9071-C6699EC96CD2}"
 EndProject
