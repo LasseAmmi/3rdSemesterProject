@@ -88,4 +88,8 @@ public class RestAPIClient : IRestClient
         throw new NotImplementedException();
     }
 
+    public bool ClientIsStub()
+    {
+        return false;
+    }
 }

@@ -1,10 +1,11 @@
 using _3rdSemesterProject.WebSite.APIClient;
 using _3rdSemesterProject.WebSite.Controllers;
+using _3rdSemesterProject.WebSite.Models.DTO;
 using _3rdSemesterProject.WebSite.Models.DTO.CombinedDTO;
 
 namespace _3rdSemesterProject.WebSiteTest;
 
-public class Tests
+public class MakingAnOrderTest
 {
     RestAPIClientStub client;
     OrdersController controller;
@@ -49,11 +50,11 @@ public class Tests
     public void MakingAnOrder_HappyDays()
     {
         //Arrange
-        RestAPIClientStub client = new RestAPIClientStub();
-        OrdersController controller = new OrdersController(client);
-        var model = new OrderDepartureDTOCombined();
-        model.AvailableSeats = client.getFirstDeparture().AvailableSeats;
-        model.SeatsReserved = client.getFirstDeparture().AvailableSeats - 1;
+        DepartureDTO testDeparture = client.getFirstDeparture();
+        model.Departure = testDeparture;
+        model.DepartureID = testDeparture.DepartureID;
+        model.AvailableSeats = testDeparture.AvailableSeats;
+        model.SeatsReserved = 1;
         //Act
         controller.Create(model);
         //Assert

@@ -10,4 +10,5 @@ public interface IRestClient
     IEnumerable<RouteDTO> GetThreeRoutes();
     public RouteDTO GetRouteById(int id);
     public IEnumerable<DepartureDTO> GetDeparturesByRouteId(int id);
+    bool ClientIsStub();
 }

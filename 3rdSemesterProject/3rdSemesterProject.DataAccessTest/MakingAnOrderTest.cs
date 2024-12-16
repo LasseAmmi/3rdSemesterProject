@@ -7,13 +7,15 @@ public class Tests
     OrderDAO testOrderDAO;
     Order testOrder;
     Departure testDeparture;
+    DepartureDAO testDepartureDAO;
 
     [OneTimeSetUp]
     public void Setup()
     {
         testOrder = new Order();
-        testDeparture = new Departure();
-        testOrderDAO = new OrderDAO("DefaultConnection"); 
+        testOrderDAO = new OrderDAO("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;");
+        testDepartureDAO = new DepartureDAO("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;");
+        testDeparture = testDepartureDAO.GetDepartureById(1);
     }
 
     [SetUp]
