@@ -45,7 +45,7 @@ internal class MakingAnOrderTest
         //Handled in Setup
 
         //Act
-        controller.CreateOrder(order);
+        ordersController.CreateOrder(testOrder);
         //Assert
         Assert.True(DAO._orders.Count() > 1);
     }
