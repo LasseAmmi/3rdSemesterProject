@@ -40,7 +40,7 @@ public class DepartureTests
     }
 
     [Test]
-    public void MakingAnOrder_InvalidBoatID()
+    public void MakingADeparture_InvalidBoatID()
     {
         //Arrange
         testDep.BoatID = -1;
@@ -53,7 +53,7 @@ public class DepartureTests
     }
     
     [Test]
-    public void MakingAnOrder_InvalidRouteID()
+    public void MakingADeparture_InvalidRouteID()
     {
         //Arrange
         testDep.RouteID = -1;
