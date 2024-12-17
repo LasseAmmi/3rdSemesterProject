@@ -16,27 +16,36 @@ public class DepartureController
     private BoatController _boatCtrl;
     private RouteController _routeCtrl;
     private IDepartureDAO _depDAO;
+    public Departure Departure { get; set; }
 
     public DepartureController()
     {
         _boatCtrl = new BoatController();
         _routeCtrl = new RouteController();
-        _depDAO = new DepartureDAO();
+        _depDAO = new DepartureDAO(_APIURL);
+        Departure = new Departure();
     }
 
-    public Departure Departure { get; set; }
+    
 
-    public IEnumerable<Departure> GetAllDepartures() //TODO: Implement API call to get all departures
+    public IEnumerable<Departure> GetAllDepartures()
     {
-        List<Departure> departures = new List<Departure>();
+        return _depDAO.GetDepartures();
+    }
 
-        departures.Add(new Departure(DateTime.Now, 20.35m, "Departure 1", 1, 1, 1));
-        departures.Add(new Departure(DateTime.Now.AddDays(1), 30m, "Departure 2", 2, 2, 2));
-        departures.Add(new Departure(DateTime.Now.AddDays(-1), 15.15m, "Departure 3", 1, 3, 3));
-        departures.Add(new Departure(DateTime.Now.AddDays(2), 12.50m, "Departure 4", 2, 1, 4));
-        departures.Add(new Departure(DateTime.Now.AddDays(-2), 40m, "Departure 5", 3, 2, 5));
+    public void UpdateDeparture(Departure departure)
+    {
+        _depDAO.UpdateDeparture(departure);
+    }
 
-        return departures;
+    public int CreateDeparture(Departure departure)
+    {
+        return _depDAO.CreateDeparture(departure);
+    }
+
+    public void DeleteDeparture(int departureId) 
+    { 
+        _depDAO.DeleteDeparture(departureId);
     }
 
     public IEnumerable<Boat> GetAllBoats()

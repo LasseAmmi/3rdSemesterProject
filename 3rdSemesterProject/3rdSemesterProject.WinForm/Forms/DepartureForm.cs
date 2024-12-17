@@ -23,8 +23,6 @@ public partial class DepartureForm : Form
         _depCtrl = new DepartureController();
         dtpDepTime.Format = DateTimePickerFormat.Custom;
         SetDataSources();
-        lstDepartures.SelectedIndex = 0;
-        UpdateControlsForSelected();
     }
 
     private void SetDataSources()
@@ -32,6 +30,8 @@ public partial class DepartureForm : Form
         lstDepartures.DataSource = _depCtrl.GetAllDepartures();
         cmbBoat.DataSource = _depCtrl.GetAllBoats();
         cmbRoute.DataSource = _depCtrl.GetAllRoutes();
+        lstDepartures.SelectedIndex = 0;
+        UpdateControlsForSelected();
 
     }
 
@@ -43,9 +43,26 @@ public partial class DepartureForm : Form
             dtpDepTime.Value = _depCtrl.Departure.Time;
             txtPrice.Text = _depCtrl.Departure.Price.ToString();
             txtAvailableSeats.Text = _depCtrl.Departure.AvailableSeats.ToString();
-            cmbBoat.SelectedItem = _depCtrl.Departure.BoatID;
-            cmbRoute.SelectedItem = _depCtrl.Departure.RouteID;
+            foreach (var item in cmbBoat.Items)
+            {
+                Boat tmpBoat = item as Boat;
+                if(tmpBoat.BoatID == _depCtrl.Departure.BoatID)
+                {
+                    cmbBoat.SelectedItem = item;
+                    break;
+                }
+            }
+            foreach (var item in cmbRoute.Items)
+            {
+                Route tmpRoute = item as Route;
+                if (tmpRoute.RouteID == _depCtrl.Departure.RouteID)
+                {
+                    cmbRoute.SelectedItem = item;
+                    break;
+                }
+            }
             txtDescription.Text = _depCtrl.Departure.Description;
+            txtDepName.Text = _depCtrl.Departure.DepartureName;
         }
     }
 
@@ -56,7 +73,6 @@ public partial class DepartureForm : Form
 
     private void btnUpdate_Click(object sender, EventArgs e)
     {
-        //Implement API call to update database
         //Check first if data is changed
         Departure updatedDep = new Departure();
         decimal temp;
@@ -77,14 +93,24 @@ public partial class DepartureForm : Form
         updatedDep.BoatID = newBoat.BoatID;
         updatedDep.RouteID = newRoute.RouteID;
         updatedDep.Description = txtDescription.Text;
+        updatedDep.DepartureName = txtDepName.Text;
         updatedDep.DepartureID = _depCtrl.Departure.DepartureID;
 
-        //Call update method here with updateDep
+        if (!updatedDep.Equals(_depCtrl.Departure))
+        {
+            _depCtrl.UpdateDeparture(updatedDep);
+        }
+
+        //Refreshes Data from DB after change in departures
+        SetDataSources();
     }
 
     private void btnDelete_Click(object sender, EventArgs e)
     {
-        //Call delete method with _dep.DepartureID
+        _depCtrl.DeleteDeparture(_depCtrl.Departure.DepartureID);
+
+        //Refreshes Data from DB after change in departures
+        SetDataSources();
     }
 
     private void btnCreate_Click(object sender, EventArgs e)
@@ -105,11 +131,15 @@ public partial class DepartureForm : Form
         }
         createDep.Time = dtpDepTime.Value;
         createDep.Price = temp;
+        createDep.DepartureName = txtDepName.Text;
         createDep.BoatID = newBoat.BoatID;
         createDep.RouteID = newRoute.RouteID;
         createDep.Description = txtDescription.Text;
 
-        //Call create method with createDep
+        _depCtrl.CreateDeparture(createDep);
+
+        //Refreshes Data from DB after change in departures
+        SetDataSources();
     }
 
     private void ShowPriceError()
@@ -119,6 +149,6 @@ public partial class DepartureForm : Form
 
     private void ShowBoatOrRouteError()
     {
-        MessageBox.Show("Can't update departure without valid boat and route", "Update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        MessageBox.Show("Can't create or update departure without valid boat and route", "Create/update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 }

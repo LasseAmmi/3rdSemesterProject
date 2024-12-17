@@ -8,11 +8,11 @@ using _3rdSemesterProject.WinForm.Models;
 namespace _3rdSemesterProject.WinForm.DataAccess;
 public interface IDepartureDAO
 {
-    Task<IEnumerable<Departure>> GetDepartures();
+    IEnumerable<Departure> GetDepartures();
 
-    Task UpdateDeparture(Departure departure);
+    void UpdateDeparture(Departure departure);
 
-    Task DeleteDeparture(int id);
+    void DeleteDeparture(int id);
 
-    Task CreateDeparture(Departure departure);
+    int CreateDeparture(Departure departure);
 }

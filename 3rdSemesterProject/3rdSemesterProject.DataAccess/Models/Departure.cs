@@ -18,5 +18,5 @@ public class Departure
     public int AvailableSeats { get; set; }
     public DateTime Time {  get; set; }
     [Timestamp]
-    public byte[] RowVersion { get; set; }
+    public byte[]? RowVersion { get; set; }
 }

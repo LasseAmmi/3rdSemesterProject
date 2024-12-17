@@ -41,12 +41,13 @@
             lblRoute = new Label();
             lblBoat = new Label();
             txtAvailableSeats = new TextBox();
-            chkAllInclusive = new CheckBox();
             lblAvailSeats = new Label();
             txtPrice = new TextBox();
             lblPrice = new Label();
             lblDepTime = new Label();
             dtpDepTime = new DateTimePicker();
+            lblDepName = new Label();
+            txtDepName = new TextBox();
             pnlList.SuspendLayout();
             grpItem.SuspendLayout();
             SuspendLayout();
@@ -71,6 +72,8 @@
             // 
             // grpItem
             // 
+            grpItem.Controls.Add(txtDepName);
+            grpItem.Controls.Add(lblDepName);
             grpItem.Controls.Add(btnDelete);
             grpItem.Controls.Add(btnCreate);
             grpItem.Controls.Add(btnUpdate);
@@ -81,7 +84,6 @@
             grpItem.Controls.Add(lblRoute);
             grpItem.Controls.Add(lblBoat);
             grpItem.Controls.Add(txtAvailableSeats);
-            grpItem.Controls.Add(chkAllInclusive);
             grpItem.Controls.Add(lblAvailSeats);
             grpItem.Controls.Add(txtPrice);
             grpItem.Controls.Add(lblPrice);
@@ -126,7 +128,7 @@
             // 
             // txtDescription
             // 
-            txtDescription.Location = new Point(130, 244);
+            txtDescription.Location = new Point(130, 271);
             txtDescription.MaxLength = 300;
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
@@ -136,7 +138,7 @@
             // lblDescription
             // 
             lblDescription.AutoSize = true;
-            lblDescription.Location = new Point(6, 244);
+            lblDescription.Location = new Point(6, 271);
             lblDescription.Name = "lblDescription";
             lblDescription.Size = new Size(67, 15);
             lblDescription.TabIndex = 11;
@@ -145,7 +147,7 @@
             // cmbRoute
             // 
             cmbRoute.FormattingEnabled = true;
-            cmbRoute.Location = new Point(130, 200);
+            cmbRoute.Location = new Point(130, 229);
             cmbRoute.Name = "cmbRoute";
             cmbRoute.Size = new Size(100, 23);
             cmbRoute.TabIndex = 15;
@@ -153,7 +155,7 @@
             // cmbBoat
             // 
             cmbBoat.FormattingEnabled = true;
-            cmbBoat.Location = new Point(130, 158);
+            cmbBoat.Location = new Point(130, 192);
             cmbBoat.Name = "cmbBoat";
             cmbBoat.Size = new Size(100, 23);
             cmbBoat.TabIndex = 4;
@@ -161,7 +163,7 @@
             // lblRoute
             // 
             lblRoute.AutoSize = true;
-            lblRoute.Location = new Point(6, 203);
+            lblRoute.Location = new Point(6, 232);
             lblRoute.Name = "lblRoute";
             lblRoute.Size = new Size(38, 15);
             lblRoute.TabIndex = 8;
@@ -170,7 +172,7 @@
             // lblBoat
             // 
             lblBoat.AutoSize = true;
-            lblBoat.Location = new Point(6, 161);
+            lblBoat.Location = new Point(6, 195);
             lblBoat.Name = "lblBoat";
             lblBoat.Size = new Size(31, 15);
             lblBoat.TabIndex = 7;
@@ -178,26 +180,16 @@
             // 
             // txtAvailableSeats
             // 
-            txtAvailableSeats.Location = new Point(130, 115);
+            txtAvailableSeats.Location = new Point(130, 153);
             txtAvailableSeats.Name = "txtAvailableSeats";
             txtAvailableSeats.ReadOnly = true;
             txtAvailableSeats.Size = new Size(100, 23);
             txtAvailableSeats.TabIndex = 6;
             // 
-            // chkAllInclusive
-            // 
-            chkAllInclusive.AutoSize = true;
-            chkAllInclusive.Location = new Point(241, 80);
-            chkAllInclusive.Name = "chkAllInclusive";
-            chkAllInclusive.Size = new Size(89, 19);
-            chkAllInclusive.TabIndex = 3;
-            chkAllInclusive.Text = "All Inclusive";
-            chkAllInclusive.UseVisualStyleBackColor = true;
-            // 
             // lblAvailSeats
             // 
             lblAvailSeats.AutoSize = true;
-            lblAvailSeats.Location = new Point(6, 118);
+            lblAvailSeats.Location = new Point(6, 156);
             lblAvailSeats.Name = "lblAvailSeats";
             lblAvailSeats.Size = new Size(85, 15);
             lblAvailSeats.TabIndex = 4;
@@ -205,7 +197,7 @@
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(130, 76);
+            txtPrice.Location = new Point(130, 116);
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(100, 23);
             txtPrice.TabIndex = 2;
@@ -213,7 +205,7 @@
             // lblPrice
             // 
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(6, 76);
+            lblPrice.Location = new Point(6, 119);
             lblPrice.Name = "lblPrice";
             lblPrice.Size = new Size(33, 15);
             lblPrice.TabIndex = 2;
@@ -235,6 +227,22 @@
             dtpDepTime.Name = "dtpDepTime";
             dtpDepTime.Size = new Size(209, 23);
             dtpDepTime.TabIndex = 0;
+            // 
+            // lblDepName
+            // 
+            lblDepName.AutoSize = true;
+            lblDepName.Location = new Point(11, 78);
+            lblDepName.Name = "lblDepName";
+            lblDepName.Size = new Size(94, 15);
+            lblDepName.TabIndex = 18;
+            lblDepName.Text = "Departure Name";
+            // 
+            // txtDepName
+            // 
+            txtDepName.Location = new Point(130, 75);
+            txtDepName.Name = "txtDepName";
+            txtDepName.Size = new Size(100, 23);
+            txtDepName.TabIndex = 19;
             // 
             // DepartureForm
             // 
@@ -260,7 +268,6 @@
         private DateTimePicker dtpDepTime;
         private Label lblPrice;
         private TextBox txtPrice;
-        private CheckBox chkAllInclusive;
         private Label lblAvailSeats;
         private TextBox txtAvailableSeats;
         private Label lblBoat;
@@ -272,5 +279,7 @@
         private Button btnUpdate;
         private Button btnDelete;
         private Button btnCreate;
+        private Label lblDepName;
+        private TextBox txtDepName;
     }
 }

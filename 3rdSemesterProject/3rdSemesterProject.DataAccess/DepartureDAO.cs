@@ -17,10 +17,11 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
     private readonly string _getDepartureById = $"SELECT * FROM [Departure] WHERE PK_departureID = @id";
     private readonly string _getDepartureByRouteId = $"SELECT * FROM [Departure] WHERE FK_routeID = @id";
     private readonly string _getAllDepartures = "SELECT * FROM [Departure]";
-    private readonly string _updateDeparture = $"UPDATE [Departure] SET time = @time, FK_routeID = @routeID, FK_boatID = @boatID, price = @price, departureName = @departureName " +
+    private readonly string _updateDeparture = $"UPDATE [Departure] SET time = @time, FK_routeID = @routeID, FK_boatID = @boatID, price = @price, departureName = @departureName, " +
         $"description = @description, availableSeats = @availSeats WHERE PK_departureID = @id";
     private readonly string _deleteDepartureById = $"DELETE FROM [Departure] WHERE PK_departureID = @id";
-    private readonly string _createDeparture = $"INSERT INTO [Departure] VALUES (@time, @FK_routeID, @FK_boatID, @price, @departureName, @description, @availSeats)";
+    private readonly string _createDeparture = $"INSERT INTO [Departure] (time, FK_routeID, FK_boatID, price, departureName, description, availableSeats) " +
+        $"VALUES (@time, @routeID, @boatID, @price, @departureName, @description, (SELECT totalSeats FROM [Boat] WHERE [Boat].PK_boatID = @boatID)); SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
 
     public DepartureDAO(string connectionstring) : base(connectionstring)
@@ -128,6 +129,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
             var command = new SqlCommand(_updateDeparture, _sqlConnection);
             AddParameters(command, departure);
             command.Parameters.AddWithValue("@id", departure.DepartureID);
+            command.Parameters.AddWithValue("@availSeats", departure.AvailableSeats);
             updateSucceeded = command.ExecuteNonQuery() > 0;
         }
         catch (Exception ex)
@@ -162,9 +164,9 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         return deleteSucceeded;
     }
 
-    public bool CreateDeparture(Departure departure)
+    public int CreateDeparture(Departure departure)
     {
-        bool createSucceeded = false;
+        int id;
         try
         {
             _sqlConnection.Open();
@@ -172,7 +174,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
 
             AddParameters(command, departure);
 
-            createSucceeded = command.ExecuteNonQuery() > 0;
+            id = (int)command.ExecuteScalar();
         }
         catch (Exception ex)
         {
@@ -182,7 +184,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         {
             _sqlConnection.Close();
         }
-        return createSucceeded;
+        return id;
     }
 
     private static void AddParameters(SqlCommand command, Departure departure)
@@ -193,7 +195,6 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         command.Parameters.AddWithValue("@price", departure.Price);
         command.Parameters.AddWithValue("@departureName", departure.DepartureName);
         command.Parameters.AddWithValue("@description", departure.Description);
-        command.Parameters.AddWithValue("@availSeats", departure.AvailableSeats);
     }
 
 }

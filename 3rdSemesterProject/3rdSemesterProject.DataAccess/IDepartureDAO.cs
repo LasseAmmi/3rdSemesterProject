@@ -17,5 +17,5 @@ public interface IDepartureDAO
 
     bool DeleteDepartureByID(int id);
 
-    bool CreateDeparture(Departure departure);
+    int CreateDeparture(Departure departure);
 }
