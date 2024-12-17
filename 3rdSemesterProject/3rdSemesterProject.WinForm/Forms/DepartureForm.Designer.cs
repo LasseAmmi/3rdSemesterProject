@@ -31,6 +31,8 @@
             pnlList = new Panel();
             lstDepartures = new ListBox();
             grpItem = new GroupBox();
+            txtDepName = new TextBox();
+            lblDepName = new Label();
             btnDelete = new Button();
             btnCreate = new Button();
             btnUpdate = new Button();
@@ -46,8 +48,7 @@
             lblPrice = new Label();
             lblDepTime = new Label();
             dtpDepTime = new DateTimePicker();
-            lblDepName = new Label();
-            txtDepName = new TextBox();
+            chkFilter = new CheckBox();
             pnlList.SuspendLayout();
             grpItem.SuspendLayout();
             SuspendLayout();
@@ -95,6 +96,22 @@
             grpItem.TabIndex = 1;
             grpItem.TabStop = false;
             grpItem.Text = "Departure";
+            // 
+            // txtDepName
+            // 
+            txtDepName.Location = new Point(130, 75);
+            txtDepName.Name = "txtDepName";
+            txtDepName.Size = new Size(200, 23);
+            txtDepName.TabIndex = 19;
+            // 
+            // lblDepName
+            // 
+            lblDepName.AutoSize = true;
+            lblDepName.Location = new Point(11, 78);
+            lblDepName.Name = "lblDepName";
+            lblDepName.Size = new Size(94, 15);
+            lblDepName.TabIndex = 18;
+            lblDepName.Text = "Departure Name";
             // 
             // btnDelete
             // 
@@ -182,7 +199,6 @@
             // 
             txtAvailableSeats.Location = new Point(130, 153);
             txtAvailableSeats.Name = "txtAvailableSeats";
-            txtAvailableSeats.ReadOnly = true;
             txtAvailableSeats.Size = new Size(100, 23);
             txtAvailableSeats.TabIndex = 6;
             // 
@@ -228,27 +244,25 @@
             dtpDepTime.Size = new Size(209, 23);
             dtpDepTime.TabIndex = 0;
             // 
-            // lblDepName
+            // chkFilter
             // 
-            lblDepName.AutoSize = true;
-            lblDepName.Location = new Point(11, 78);
-            lblDepName.Name = "lblDepName";
-            lblDepName.Size = new Size(94, 15);
-            lblDepName.TabIndex = 18;
-            lblDepName.Text = "Departure Name";
-            // 
-            // txtDepName
-            // 
-            txtDepName.Location = new Point(130, 75);
-            txtDepName.Name = "txtDepName";
-            txtDepName.Size = new Size(100, 23);
-            txtDepName.TabIndex = 19;
+            chkFilter.AutoSize = true;
+            chkFilter.Checked = true;
+            chkFilter.CheckState = CheckState.Checked;
+            chkFilter.Location = new Point(580, 34);
+            chkFilter.Name = "chkFilter";
+            chkFilter.Size = new Size(131, 19);
+            chkFilter.TabIndex = 2;
+            chkFilter.Text = "Filter old departures";
+            chkFilter.UseVisualStyleBackColor = true;
+            chkFilter.CheckedChanged += chkFilter_CheckedChanged;
             // 
             // DepartureForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(chkFilter);
             Controls.Add(grpItem);
             Controls.Add(pnlList);
             Name = "DepartureForm";
@@ -257,6 +271,7 @@
             grpItem.ResumeLayout(false);
             grpItem.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -281,5 +296,6 @@
         private Button btnCreate;
         private Label lblDepName;
         private TextBox txtDepName;
+        private CheckBox chkFilter;
     }
 }

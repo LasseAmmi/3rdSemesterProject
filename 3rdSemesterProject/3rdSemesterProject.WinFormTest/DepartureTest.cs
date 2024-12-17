@@ -1,11 +1,11 @@
-using _3rdSemesterProject.DataAccess;
-using _3rdSemesterProject.DataAccess.Models;
-using Microsoft.Data.SqlClient;
 using System.Data.SqlTypes;
-namespace _3rdSemesterProject.DataAccessTest;
+using _3rdSemesterProject.WinForm;
 
-public class DepartureTests
+namespace _3rdSemesterProject.WinFormTest;
+
+public class Tests
 {
+
     DepartureDAO testDepDAO;
     Departure testDep;
 
@@ -13,11 +13,11 @@ public class DepartureTests
     public void Setup()
     {
         testDep = new Departure();
-        testDepDAO = new DepartureDAO("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;"); 
+        testDepDAO = new DepartureDAO("Data Source=hildur.ucn.dk;Initial Catalog=DMA-CSD-S231_10503080;User ID=DMA-CSD-S231_10503080;Password=Password1!;TrustServerCertificate=True;");
     }
 
     [SetUp]
-    public void ArrangeTests() 
+    public void ArrangeTests()
     {
         testDep.Time = (DateTime)SqlDateTime.MinValue;
         testDep.DepartureName = "TestDeparture";
@@ -32,7 +32,7 @@ public class DepartureTests
     public void MakingADeparture_HappyDays()
     {
         //Arrange
-        
+
         //Act
 
         //Assert
@@ -46,12 +46,12 @@ public class DepartureTests
         testDep.BoatID = -1;
 
         //Act
-        
+
 
         //Assert
         Assert.Throws<SqlException>(() => testDepDAO.CreateDeparture(testDep));
     }
-    
+
     [Test]
     public void MakingAnOrder_InvalidRouteID()
     {
@@ -59,7 +59,7 @@ public class DepartureTests
         testDep.RouteID = -1;
 
         //Act
-       
+
 
         //Assert
         Assert.Throws<SqlException>(() => testDepDAO.CreateDeparture(testDep));

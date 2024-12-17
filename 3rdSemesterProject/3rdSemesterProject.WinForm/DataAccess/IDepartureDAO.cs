@@ -8,7 +8,7 @@ using _3rdSemesterProject.WinForm.Models;
 namespace _3rdSemesterProject.WinForm.DataAccess;
 public interface IDepartureDAO
 {
-    IEnumerable<Departure> GetDepartures();
+    IEnumerable<Departure> GetDepartures(bool filter);
 
     void UpdateDeparture(Departure departure);
 

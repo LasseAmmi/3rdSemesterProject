@@ -27,7 +27,7 @@ public partial class DepartureForm : Form
 
     private void SetDataSources()
     {
-        lstDepartures.DataSource = _depCtrl.GetAllDepartures();
+        lstDepartures.DataSource = _depCtrl.GetAllDepartures(chkFilter.Checked);
         cmbBoat.DataSource = _depCtrl.GetAllBoats();
         cmbRoute.DataSource = _depCtrl.GetAllRoutes();
         lstDepartures.SelectedIndex = 0;
@@ -46,7 +46,7 @@ public partial class DepartureForm : Form
             foreach (var item in cmbBoat.Items)
             {
                 Boat tmpBoat = item as Boat;
-                if(tmpBoat.BoatID == _depCtrl.Departure.BoatID)
+                if (tmpBoat.BoatID == _depCtrl.Departure.BoatID)
                 {
                     cmbBoat.SelectedItem = item;
                     break;
@@ -76,7 +76,7 @@ public partial class DepartureForm : Form
         //Check first if data is changed
         Departure updatedDep = new Departure();
         decimal temp;
-        if(!Decimal.TryParse(txtPrice.Text, out temp))
+        if (!Decimal.TryParse(txtPrice.Text, out temp))
         {
             ShowPriceError();
             return;
@@ -150,5 +150,10 @@ public partial class DepartureForm : Form
     private void ShowBoatOrRouteError()
     {
         MessageBox.Show("Can't create or update departure without valid boat and route", "Create/update error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
+    private void chkFilter_CheckedChanged(object sender, EventArgs e)
+    {
+        SetDataSources();
     }
 }

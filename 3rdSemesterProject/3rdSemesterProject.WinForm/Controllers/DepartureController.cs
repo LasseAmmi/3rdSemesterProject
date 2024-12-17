@@ -28,9 +28,9 @@ public class DepartureController
 
     
 
-    public IEnumerable<Departure> GetAllDepartures()
+    public IEnumerable<Departure> GetAllDepartures(bool filter)
     {
-        return _depDAO.GetDepartures();
+        return _depDAO.GetDepartures(filter);
     }
 
     public void UpdateDeparture(Departure departure)

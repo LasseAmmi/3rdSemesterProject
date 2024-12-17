@@ -16,7 +16,7 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
     #region Constructor and SQL queries
     private readonly string _getDepartureById = $"SELECT * FROM [Departure] WHERE PK_departureID = @id";
     private readonly string _getDepartureByRouteId = $"SELECT * FROM [Departure] WHERE FK_routeID = @id";
-    private readonly string _getAllDepartures = "SELECT * FROM [Departure]";
+    private readonly string _getAllDepartures = "SELECT * FROM [Departure] WHERE Time > @time";
     private readonly string _updateDeparture = $"UPDATE [Departure] SET time = @time, FK_routeID = @routeID, FK_boatID = @boatID, price = @price, departureName = @departureName, " +
         $"description = @description, availableSeats = @availSeats WHERE PK_departureID = @id";
     private readonly string _deleteDepartureById = $"DELETE FROM [Departure] WHERE PK_departureID = @id";
@@ -96,13 +96,21 @@ public class DepartureDAO : BaseDAO, IDepartureDAO
         return departures;
     }
 
-    public IEnumerable<Departure> GetAllDepartures()
+    public IEnumerable<Departure> GetAllDepartures(bool filter)
     {
         List<Departure> departures = new List<Departure>();
         try
         {
             _sqlConnection.Open();
             var command = new SqlCommand(_getAllDepartures, _sqlConnection);
+            if (filter)
+            {
+                command.Parameters.AddWithValue("@time", DateTime.Now);
+            }
+            else
+            {
+                command.Parameters.AddWithValue("@time", SqlDateTime.MinValue);
+            }
             SqlDataReader sqlDataReader = command.ExecuteReader();
             while (sqlDataReader.Read())
             {

@@ -28,9 +28,10 @@ public class DepartureDAO : IDepartureDAO
         _client.Delete(request);
     }
 
-    public IEnumerable<Departure> GetDepartures()
+    public IEnumerable<Departure> GetDepartures(bool filter)
     {
         RestRequest request = new RestRequest("departures");
+        request.AddParameter<bool>("filter", filter);
         var response = _client.Get<IEnumerable<Departure>>(request);
         
         //For now not handling if response is null here, since program is expected to continue operation even if no departures are found in the system

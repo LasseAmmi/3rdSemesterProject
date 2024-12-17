@@ -11,7 +11,7 @@ public interface IDepartureDAO
     IEnumerable<Departure> GetDeparturesByRouteId(int id);
     Departure? GetDepartureById(int id);
 
-    IEnumerable<Departure> GetAllDepartures();
+    IEnumerable<Departure> GetAllDepartures(bool filter);
 
     bool UpdateDeparture(Departure departure);
 

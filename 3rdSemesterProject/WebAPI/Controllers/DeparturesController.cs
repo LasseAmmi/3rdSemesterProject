@@ -68,12 +68,12 @@ public class DeparturesController : ControllerBase
 
     //GET API/<DeparturesController>
     [HttpGet]
-    public ActionResult<IEnumerable<Departure>> Get()
+    public ActionResult<IEnumerable<Departure>> Get(bool filter)
     {
         IEnumerable<Departure> departuresByRouteId;
         try
         {
-            departuresByRouteId = _departuresDAO.GetAllDepartures();
+            departuresByRouteId = _departuresDAO.GetAllDepartures(filter);
             if (departuresByRouteId != null)
             {
                 return Ok(departuresByRouteId);
