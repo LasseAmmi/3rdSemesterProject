@@ -14,6 +14,7 @@ public class RouteDAO : BaseDAO, IRouteDAO
     #region SQL queries and constructor
     private readonly string _getRouteById = $"SELECT PK_routeID, description, duration, title FROM [Route] WHERE PK_routeID = @id";
     private readonly string _getThreeRoutes = "SELECT TOP 3 PK_RouteID, description, duration, Title FROM [Route]";
+    private readonly string _getAllRoutes = "SELECT * FROM [Route]";
     public RouteDAO(string connectionstring) : base(connectionstring)
     {
         CreateConnection();
@@ -30,7 +31,7 @@ public class RouteDAO : BaseDAO, IRouteDAO
             using SqlDataReader sqlDataReader = command.ExecuteReader();
             if (sqlDataReader.Read())
             {
-                return CreateRoutePlaceHolder(sqlDataReader);
+                placeHolderRoute = CreateRoutePlaceHolder(sqlDataReader);
             }
         }
         catch (Exception ex)
@@ -62,12 +63,41 @@ public class RouteDAO : BaseDAO, IRouteDAO
         {
             throw new Exception();
         }
+        finally
+        {
+            _sqlConnection.Close();
+        }
     }
 
+    public IEnumerable<Route>? GetAllRoutes()
+    {
+        try
+        {
+            List<Route> listOfRoutes = new List<Route>();
+            var command = new SqlCommand(_getAllRoutes, _sqlConnection);
+            _sqlConnection.Open();
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                listOfRoutes.Add(CreateRoutePlaceHolder(reader));
+            }
+            return listOfRoutes;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception();
+        }
+        finally
+        {
+            _sqlConnection.Close();
+        }
+    }
+    // Helper method to reduce bloat of other methods
+    // takes a reader to then create a Departure from the DataReader
     private Route CreateRoutePlaceHolder(SqlDataReader reader)
     {
         Route placeholderRoute = new Route();
-        placeholderRoute.PK_routeID = ((int)reader["PK_routeID"]);
+        placeholderRoute.RouteID = ((int)reader["PK_routeID"]);
         placeholderRoute.Description = ((string)reader["description"]);
         placeholderRoute.Duration = ((int)reader["duration"]);
         placeholderRoute.Title = ((string)reader["Title"]);

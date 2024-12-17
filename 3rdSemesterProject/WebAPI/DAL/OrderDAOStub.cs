@@ -1,20 +1,22 @@
 ﻿using _3rdSemesterProject.DataAccess;
 using _3rdSemesterProject.DataAccess.Models;
-using _3rdSemesterProject.DataAccess.Models__Lasse_;
 using Microsoft.AspNetCore.Mvc;
-using WebAPI.DAL.DTO;
 
 namespace WebAPI.DAL;
 
 
 public class OrderDAOStub : IOrderDAO
 {
+    Departure testDeparture = new Departure()
+    {
+        DepartureID = 1
+    };
     public List<Order> _orders = new List<Order>() {
-    new Order() {OrderID = 1, CustomerID = 1, DepartureID = 1, SeatsReserved = 5, TotalPrice = 20}
+    new Order() {OrderID = 1, CustomerID = 1, SeatsReserved = 5, TotalPrice = 20}
     };
     public OrderDAOStub(string baseURI)
     {
-                
+        _orders[0].Departure = testDeparture;
     }
 
     public int CreateOrder(Order newOrder)
@@ -34,6 +36,6 @@ public class OrderDAOStub : IOrderDAO
 
     public Order GetOrderById(int id)
     {
-        return _orders[id];
+        return _orders.ElementAt(id);
     }
 }

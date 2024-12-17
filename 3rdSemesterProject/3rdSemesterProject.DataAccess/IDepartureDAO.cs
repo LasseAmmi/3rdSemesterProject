@@ -9,5 +9,13 @@ namespace _3rdSemesterProject.DataAccess;
 public interface IDepartureDAO
 {
     IEnumerable<Departure> GetDeparturesByRouteId(int id);
-    Departure GetDepartureById(int id);
+    Departure? GetDepartureById(int id);
+
+    IEnumerable<Departure> GetAllDepartures(bool filter);
+
+    bool UpdateDeparture(Departure departure);
+
+    bool DeleteDepartureByID(int id);
+
+    int CreateDeparture(Departure departure);
 }

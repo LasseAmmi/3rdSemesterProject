@@ -9,14 +9,14 @@ namespace _3rdSemesterProject.DataAccess.Models;
 
 public class Departure
 {
-    public int PK_departureID { get; set; }
-    public int FK_routeID { get; set; }
-    public int FK_boatID { get; set; }
+    public int DepartureID { get; set; }
+    public int RouteID { get; set; }
+    public int BoatID { get; set; }
     public decimal Price { get; set; }
     public string DepartureName { get; set; }
     public string Description { get; set; }
     public int AvailableSeats { get; set; }
     public DateTime Time {  get; set; }
     [Timestamp]
-    public byte[] RowVersion { get; set; }
+    public byte[]? RowVersion { get; set; }
 }

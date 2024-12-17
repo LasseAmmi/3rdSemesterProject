@@ -1,11 +1,12 @@
 ﻿using _3rdSemesterProject.WebSite.Models.DTO;
+using Microsoft.AspNetCore.Http.HttpResults;
 using RestSharp;
 
-namespace _3rdSemesterProject.WebSite.APIStub;
+namespace _3rdSemesterProject.WebSite.APIClient;
 
 public class RestAPIClient : IRestClient
 {
-    RestClient _client;
+    private RestClient _client;
     public RestAPIClient(string baseAPIURL)
     {
         _client = new RestClient(baseAPIURL);
@@ -16,7 +17,15 @@ public class RestAPIClient : IRestClient
         RestRequest request = new RestRequest("departures/departuresByRouteId");
         request.AddParameter("id", id);
         var response = _client.Get<IEnumerable<DepartureDTO>>(request);
-        return response;
+        if (response != null)
+        {
+            return response;
+        }
+        else
+        {
+           
+            throw new Exception("Could not retrieve departure by Route Id.");
+        }
     }
 
     public DepartureDTO GetDepartureById(int id)
@@ -30,7 +39,7 @@ public class RestAPIClient : IRestClient
         }
         else
         {
-            throw new Exception("Could not retrieve departure.");
+            throw new Exception("Could not retrieve departure by Departure Id.");
         }
     }
     public IEnumerable<RouteDTO> GetThreeRoutes()
@@ -43,7 +52,7 @@ public class RestAPIClient : IRestClient
         }
         else
         {
-            throw new Exception("Could not retrieve departure.");
+            throw new Exception("Could not retrieve 3 first Routes.");
         }
     }
     public int CreateOrder(OrderDTO newOrder)
@@ -53,7 +62,7 @@ public class RestAPIClient : IRestClient
             RestRequest request = new RestRequest("orders/CreateOrder");
             request.AddJsonBody(newOrder);
             var response = _client.Post<int>(request);
-            if (response != 0 && response != null)
+            if (response != 0)
             {
                 return response;
             }
@@ -64,19 +73,23 @@ public class RestAPIClient : IRestClient
         }
         catch (Exception ex)
         {
-            throw new Exception($"Rest request for creating an order did not work. {ex.Message}" ,ex);
+            throw new Exception($"Rest request for creating an order did not work. {ex.Message}", ex);
         }
     }
 
-
+    // Will be implemented in later User Stories
     public DepartureDTO getFirstDeparture()
     {
         throw new NotImplementedException();
     }
-
+    // Will be implemented in later User Stories
     public RouteDTO GetRouteById(int id)
     {
         throw new NotImplementedException();
     }
 
+    public bool ClientIsStub()
+    {
+        return false;
+    }
 }

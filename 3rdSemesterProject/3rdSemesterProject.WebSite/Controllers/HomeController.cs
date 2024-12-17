@@ -1,7 +1,7 @@
 using _3rdSemesterProject.WebSite.Models;
-using _3rdSemesterProject.WebSite.APIStub;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using _3rdSemesterProject.WebSite.APIClient;
 
 namespace _3rdSemesterProject.WebSite.Controllers;
 
@@ -9,10 +9,10 @@ public class HomeController : Controller
 {
 
     private readonly ILogger<HomeController> _logger;
-    private readonly APIStub.IRestClient _restClient;
+    private readonly IRestClient _restClient;
 
 
-    public HomeController(ILogger<HomeController> logger, APIStub.IRestClient restClient)
+    public HomeController(ILogger<HomeController> logger, IRestClient restClient)
     {
         _logger = logger;
         _restClient = restClient;
