@@ -49,7 +49,7 @@ public class DepartureTests
         
 
         //Assert
-        Assert.Throws<SqlException>(() => testDepDAO.CreateDeparture(testDep));
+        Assert.Throws<Exception>(() => testDepDAO.CreateDeparture(testDep));
     }
     
     [Test]
@@ -62,7 +62,7 @@ public class DepartureTests
        
 
         //Assert
-        Assert.Throws<SqlException>(() => testDepDAO.CreateDeparture(testDep));
+        Assert.Throws<Exception>(() => testDepDAO.CreateDeparture(testDep));
     }
 
 

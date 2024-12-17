@@ -85,6 +85,7 @@ public class OrdersController : Controller
             {
                 model.Departure = departure;
                 _restClient.CreateOrder(ConvertToOrderDTO(model));
+                //Without this if statement test "MakingAnOrder_HappyDays" would fail because TempData would be null because it is never intilized in the tests. Therefor this if statement so that TempData is only ever used if the the STUB is not in use
                 if (!_restClient.ClientIsStub())
                 {
                     TempData["SuccessMessage"] = "Order successfully created."; // Store the success message for pop-up

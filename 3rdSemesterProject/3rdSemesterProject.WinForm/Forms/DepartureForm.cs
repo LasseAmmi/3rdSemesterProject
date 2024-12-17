@@ -12,7 +12,7 @@ using _3rdSemesterProject.WinForm.Controllers;
 
 
 namespace _3rdSemesterProject.WinForm.Forms;
-
+//Partial class which contains both a Form and eventlistener
 public partial class DepartureForm : Form
 {
     private DepartureController _depCtrl;
@@ -24,7 +24,7 @@ public partial class DepartureForm : Form
         dtpDepTime.Format = DateTimePickerFormat.Custom;
         SetDataSources();
     }
-
+    //Collects all necesary data and is often called to ensure updated source
     private void SetDataSources()
     {
         lstDepartures.DataSource = _depCtrl.GetAllDepartures(chkFilter.Checked);
@@ -35,6 +35,7 @@ public partial class DepartureForm : Form
 
     }
 
+    //Updates fields on form from selected Departure
     private void UpdateControlsForSelected()
     {
         _depCtrl.Departure = lstDepartures.SelectedItem as Departure;
@@ -75,8 +76,8 @@ public partial class DepartureForm : Form
     {
         //Check first if data is changed
         Departure updatedDep = new Departure();
-        decimal temp;
-        if (!Decimal.TryParse(txtPrice.Text, out temp))
+        decimal tempPrice;
+        if (!Decimal.TryParse(txtPrice.Text, out tempPrice))
         {
             ShowPriceError();
             return;
@@ -88,13 +89,20 @@ public partial class DepartureForm : Form
             ShowBoatOrRouteError();
             return;
         }
+        int tempSeats;
+        if (!int.TryParse(txtAvailableSeats.Text, out tempSeats))
+        {
+            ShowSeatsError();
+            return;
+        }
         updatedDep.Time = dtpDepTime.Value;
-        updatedDep.Price = temp;
+        updatedDep.Price = tempPrice;
         updatedDep.BoatID = newBoat.BoatID;
         updatedDep.RouteID = newRoute.RouteID;
         updatedDep.Description = txtDescription.Text;
         updatedDep.DepartureName = txtDepName.Text;
         updatedDep.DepartureID = _depCtrl.Departure.DepartureID;
+        updatedDep.AvailableSeats = tempSeats;
 
         if (!updatedDep.Equals(_depCtrl.Departure))
         {
@@ -145,6 +153,11 @@ public partial class DepartureForm : Form
     private void ShowPriceError()
     {
         MessageBox.Show("Entered price is not a valid decimal number", "Price error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+
+    private void ShowSeatsError()
+    {
+        MessageBox.Show("Entered avavialble seats is not a valid number", "Avavialble Seats", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void ShowBoatOrRouteError()
