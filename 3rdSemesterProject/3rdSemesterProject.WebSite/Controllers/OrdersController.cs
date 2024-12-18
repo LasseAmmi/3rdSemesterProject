@@ -65,11 +65,6 @@ public class OrdersController : Controller
                 ModelState.AddModelError("DepartureID", "Departure not found.");
                 return View(model);
             }
-            if (departure == null)
-            {
-                ModelState.AddModelError("DepartureID", "Departure not found.");
-                return View(model);
-            }
             model.AvailableSeats = departure.AvailableSeats;
             // Check if the seats reserved is acceptable
             if (model.AvailableSeats < model.SeatsReserved)
