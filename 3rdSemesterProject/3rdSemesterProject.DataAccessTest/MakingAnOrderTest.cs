@@ -4,10 +4,10 @@ namespace _3rdSemesterProject.DataAccessTest;
 
 public class Tests
 {
-    OrderDAO testOrderDAO;
+    IOrderDAO testOrderDAO;
     Order testOrder;
     Departure testDeparture;
-    DepartureDAO testDepartureDAO;
+    IDepartureDAO testDepartureDAO;
 
     [OneTimeSetUp]
     public void Setup()

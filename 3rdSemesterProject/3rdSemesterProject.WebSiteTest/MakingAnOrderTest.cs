@@ -55,8 +55,10 @@ public class MakingAnOrderTest
         model.DepartureID = testDeparture.DepartureID;
         model.AvailableSeats = testDeparture.AvailableSeats;
         model.SeatsReserved = 1;
+
         //Act
         controller.Create(model);
+
         //Assert
         Assert.IsTrue(client._orders.Count() > 0);
     }
